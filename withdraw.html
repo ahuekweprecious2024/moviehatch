@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Withdraw Funds - MovieHatch</title>
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#e50914" />
+    <meta name="msapplication-TileColor" content="#221f1f" />
+    <meta name="theme-color" content="#221f1f" />
+
+    <!-- Primary Meta Tags -->
+    <title>MovieHatch - Premium Movie Streaming & Download Platform</title>
+    <meta
+      name="description"
+      content="Stream unlimited movies and TV shows in HD quality. Download your favorites to watch offline. Join MovieHatch for the best streaming experience with no ads."
+    />
+    <meta
+      name="keywords"
+      content="stream movies, watch TV shows, movie downloads, premium streaming, HD movies, no ads streaming, online cinema"
+    />
+    <meta name="author" content="MovieHatch" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://moviehatch.onrender.com/" />
+    <meta
+      property="og:title"
+      content="MovieHatch - Premium Movie Streaming & Download Platform"
+    />
+    <meta
+      property="og:description"
+      content="Stream unlimited movies and TV shows in HD quality. Download your favorites to watch offline with MovieHatch."
+    />
+    <meta
+      property="og:image"
+      content="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://moviehatch.onrender.com/" />
+    <meta
+      name="twitter:title"
+      content="MovieHatch - Premium Movie Streaming & Download Platform"
+    />
+    <meta
+      name="twitter:description"
+      content="Stream unlimited movies and TV shows in HD quality. Download your favorites to watch offline with MovieHatch."
+    />
+    <meta
+      name="twitter:image"
+      content="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+
+    <!-- Structured Data / Schema Markup -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "MovieHatch",
+        "url": "https://moviehatch.onrender.com",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://moviehatch.onrender.com/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "MovieHatch",
+        "url": "https://moviehatch.onrender.com",
+        "logo": "https://cdn-icons-png.flaticon.com/128/6878/6878693.png",
+        "sameAs": [
+          "https://moviehatch.onrender.com",
+          "https://moviehatch.onrender.com",
+          "https://moviehatch.onrender.com"
+        ]
+      }
+    </script>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://moviehatch.onrender.com" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+    <style>
+      :root {
+        --primary: #e50914;
+        --primary-dark: #b2070f;
+        --secondary: #221f1f;
+        --light: #f5f5f1;
+        --dark: #000000;
+        --gold: #ffd700;
+        --green: #00d4aa;
+        --blue: #007bff;
+        --purple: #6f42c1;
+        --transition: all 0.3s ease;
+        --gradient: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: linear-gradient(
+          135deg,
+          var(--secondary) 0%,
+          var(--dark) 100%
+        );
+        color: var(--light);
+        overflow-x: hidden;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      /* Preloader */
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--secondary);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+
+      .preloader.fade-out {
+        opacity: 0;
+      }
+
+      .loader {
+        width: 60px;
+        height: 60px;
+        border: 6px solid var(--light);
+        border-top: 6px solid var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Header */
+      .header {
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 15px 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-weight: 300;
+        font-size: 1.8rem;
+        color: var(--primary);
+        text-decoration: none;
+        position: relative;
+      }
+
+      .logo::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--gradient);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .logo:hover::after {
+        transform: scaleX(1);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .back-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--light);
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        margin-right: 10px;
+      }
+
+      .back-btn:hover {
+        background: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        padding: 8px 15px;
+        border-radius: 25px;
+        transition: var(--transition);
+      }
+
+      .user-profile:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .user-avatar {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: var(--gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+      }
+
+      /* Main Container */
+      .main-container {
+        margin-top: 80px;
+        padding: 30px 20px;
+        max-width: 1400px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Page Title */
+      .page-title {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        text-align: center;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .page-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--gradient);
+        border-radius: 3px;
+      }
+
+      /* Withdrawal Card */
+      .withdrawal-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 40px;
+        margin-bottom: 40px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+        max-width: 800px;
+        margin: 0 auto 40px;
+      }
+
+      .withdrawal-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover);
+      }
+
+      .withdrawal-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(229, 9, 20, 0.1) 0%,
+          transparent 70%
+        );
+        z-index: -1;
+        animation: rotate 15s linear infinite;
+      }
+
+      @keyframes rotate {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Balance Info */
+      .balance-info {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .balance-label {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 10px;
+      }
+
+      .balance-amount {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 5px;
+      }
+
+      .balance-naira {
+        font-size: 1.1rem;
+        color: var(--gold);
+        opacity: 0.8;
+      }
+
+      /* Withdrawal Tabs */
+      .withdrawal-tabs {
+        display: flex;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 30px;
+      }
+
+      .withdrawal-tab {
+        flex: 1;
+        padding: 15px;
+        text-align: center;
+        cursor: pointer;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.7);
+        transition: var(--transition);
+        position: relative;
+      }
+
+      .withdrawal-tab.active {
+        color: var(--light);
+      }
+
+      .withdrawal-tab.active::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--gradient);
+      }
+
+      .withdrawal-tab:hover:not(.active) {
+        color: var(--light);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      /* Withdrawal Content */
+      .withdrawal-content {
+        display: none;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .withdrawal-content.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Form Styles */
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: var(--light);
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: var(--light);
+        font-size: 1rem;
+        transition: var(--transition);
+        font-family: inherit;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.2);
+      }
+
+      .form-hint {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 8px;
+      }
+
+      .amount-preview {
+        display: flex;
+        justify-content: space-between;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 20px 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .amount-label {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .amount-value {
+        font-weight: 700;
+      }
+
+      .usd-amount {
+        color: var(--green);
+      }
+
+      .ngn-amount {
+        color: var(--gold);
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 18px;
+        border-radius: 12px;
+        background: var(--gradient);
+        color: white;
+        border: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-top: 20px;
+        box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-hover);
+      }
+
+      .submit-btn:disabled {
+        background: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.5);
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      .submit-btn:disabled:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      /* Status Modal */
+      .status-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+      }
+
+      .status-modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .status-container {
+        background: linear-gradient(
+          135deg,
+          rgba(34, 31, 31, 0.95) 0%,
+          rgba(0, 0, 0, 0.95) 100%
+        );
+        border-radius: 20px;
+        width: 90%;
+        max-width: 500px;
+        padding: 40px;
+        box-shadow: var(--shadow);
+        transform: translateY(30px);
+        transition: var(--transition);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .status-modal.active .status-container {
+        transform: translateY(0);
+      }
+
+      .status-icon {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 25px;
+        font-size: 3rem;
+        position: relative;
+      }
+
+      .status-icon.success {
+        background: rgba(0, 212, 170, 0.2);
+        color: var(--green);
+      }
+
+      .status-icon.error {
+        background: rgba(229, 9, 20, 0.2);
+        color: var(--primary);
+      }
+
+      .status-icon::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        border-radius: 50%;
+        border: 3px solid currentColor;
+        opacity: 0.3;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          opacity: 0.3;
+        }
+        70% {
+          transform: scale(1.1);
+          opacity: 0.1;
+        }
+        100% {
+          transform: scale(0.95);
+          opacity: 0.3;
+        }
+      }
+
+      .status-title {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        margin-bottom: 15px;
+        color: var(--light);
+      }
+
+      .status-message {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 30px;
+        line-height: 1.6;
+      }
+
+      .status-details {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 25px;
+        text-align: left;
+      }
+
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .detail-label {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .detail-value {
+        font-weight: 600;
+      }
+
+      .status-action {
+        width: 100%;
+        padding: 15px;
+        border-radius: 10px;
+        background: var(--gradient);
+        color: white;
+        border: none;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+      }
+
+      .status-action:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-hover);
+      }
+
+      /* Loading Animation */
+      .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .header-content {
+          padding: 0 15px;
+        }
+
+        .main-container {
+          padding: 20px 15px;
+        }
+
+        .page-title {
+          font-size: 2rem;
+        }
+
+        .withdrawal-card {
+          padding: 30px 20px;
+        }
+
+        .balance-amount {
+          font-size: 2rem;
+        }
+
+        .withdrawal-tabs {
+          flex-direction: column;
+        }
+
+        .withdrawal-tab {
+          padding: 12px;
+        }
+
+        .status-container {
+          padding: 30px 20px;
+        }
+
+        .status-icon {
+          width: 80px;
+          height: 80px;
+          font-size: 2.5rem;
+        }
+
+        .status-title {
+          font-size: 1.8rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .logo {
+          font-size: 1.5rem;
+        }
+
+        .page-title {
+          font-size: 1.8rem;
+        }
+
+        .balance-amount {
+          font-size: 1.8rem;
+        }
+
+        .status-icon {
+          width: 70px;
+          height: 70px;
+          font-size: 2rem;
+        }
+
+        .status-title {
+          font-size: 1.5rem;
+        }
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fadeInUp {
+        animation: fadeInUp 0.6s ease forwards;
+      }
+
+      /* Success/Error Messages */
+      .message {
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-weight: 600;
+        text-align: center;
+        animation: fadeInUp 0.5s ease;
+      }
+
+      .message.success {
+        background: rgba(0, 212, 170, 0.2);
+        border: 1px solid var(--green);
+        color: var(--green);
+      }
+
+      .message.error {
+        background: rgba(229, 9, 20, 0.2);
+        border: 1px solid var(--primary);
+        color: var(--primary);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div class="preloader">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <button class="back-btn" onclick="window.history.back()">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <a href="index.html" class="logo">MovieHatch</a>
+
+        <div class="header-actions">
+          <div class="user-profile" onclick="toggleUserMenu()">
+            <div class="user-avatar" id="userAvatar">U</div>
+            <span id="userName">User</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- <h1 class="page-title animate-fadeInUp">Withdraw Funds</h1> -->
+
+      <!-- Withdrawal Card -->
+      <div
+        class="withdrawal-card animate-fadeInUp"
+        style="animation-delay: 0.1s"
+      >
+        <!-- Balance Info -->
+        <div class="balance-info">
+          <div class="balance-label">Available Balance</div>
+          <div class="balance-amount">
+            $<span id="currentBalance">0.00</span>
+          </div>
+          <div class="balance-naira">
+            ≈ ₦<span id="nairaEquivalent">0.00</span>
+          </div>
+        </div>
+
+        <!-- Withdrawal Tabs -->
+        <div class="withdrawal-tabs">
+          <div
+            class="withdrawal-tab active"
+            onclick="switchWithdrawalTab('crypto')"
+          >
+            <i class="fab fa-bitcoin"></i> USDT (TRC20)
+          </div>
+          <div class="withdrawal-tab" onclick="switchWithdrawalTab('bank')">
+            <i class="fas fa-university"></i> Bank Transfer (NGN)
+          </div>
+        </div>
+
+        <!-- Crypto Withdrawal Form -->
+        <div class="withdrawal-content active" id="cryptoWithdrawal">
+          <form id="cryptoForm">
+            <div class="form-group">
+              <label for="cryptoAddress" class="form-label"
+                >USDT (TRC20) Wallet Address</label
+              >
+              <input
+                type="text"
+                id="cryptoAddress"
+                class="form-control"
+                placeholder="Enter your TRC20 wallet address"
+                required
+              />
+              <p class="form-hint">
+                Make sure this is a TRC20 compatible USDT address
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label for="cryptoAmount" class="form-label">Amount (USD)</label>
+              <input
+                type="number"
+                id="cryptoAmount"
+                class="form-control"
+                placeholder="Enter amount to withdraw"
+                min="100"
+                step="0.01"
+                required
+              />
+              <p class="form-hint">Minimum withdrawal: $100</p>
+            </div>
+
+            <div class="amount-preview">
+              <div class="amount-label">You will receive:</div>
+              <div class="amount-value usd-amount" id="cryptoReceiveAmount">
+                $0.00
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="cryptoSubmitBtn">
+              <i class="fas fa-paper-plane"></i> Process Withdrawal
+            </button>
+          </form>
+        </div>
+
+        <!-- Bank Withdrawal Form -->
+        <div class="withdrawal-content" id="bankWithdrawal">
+          <form id="bankForm">
+            <div class="form-group">
+              <label for="bankAmount" class="form-label">Amount (USD)</label>
+              <input
+                type="number"
+                id="bankAmount"
+                class="form-control"
+                placeholder="Enter amount to withdraw"
+                min="100"
+                step="0.01"
+                required
+              />
+              <p class="form-hint">Minimum withdrawal: $100</p>
+            </div>
+
+            <div class="amount-preview">
+              <div class="amount-label">Approximate NGN:</div>
+              <div class="amount-value ngn-amount" id="bankNairaAmount">
+                ₦0.00
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="accountName" class="form-label">Account Name</label>
+              <input
+                type="text"
+                id="accountName"
+                class="form-control"
+                placeholder="Enter account name as it appears on bank records"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="accountNumber" class="form-label"
+                >Account Number</label
+              >
+              <input
+                type="text"
+                id="accountNumber"
+                class="form-control"
+                placeholder="Enter 10-digit account number"
+                required
+                pattern="[0-9]{10}"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="bankName" class="form-label">Bank Name</label>
+              <input
+                type="text"
+                id="bankName"
+                class="form-control"
+                placeholder="Enter your bank name"
+                required
+              />
+            </div>
+
+            <button type="submit" class="submit-btn" id="bankSubmitBtn">
+              <i class="fas fa-paper-plane"></i> Process Withdrawal
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Modal -->
+    <div class="status-modal" id="statusModal">
+      <div class="status-container">
+        <div class="status-icon success" id="statusIcon">
+          <i class="fas fa-check"></i>
+        </div>
+        <h2 class="status-title" id="statusTitle">Withdrawal Successful</h2>
+        <p class="status-message" id="statusMessage">
+          Your withdrawal request has been submitted successfully. It will be
+          processed within 24 hours.
+        </p>
+
+        <div class="status-details" id="statusDetails">
+          <!-- Details will be inserted here -->
+        </div>
+
+        <button class="status-action" onclick="closeStatusModal()">
+          <i class="fas fa-check"></i> Done
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDJP2XIR51qGTLINiKvEoscYTMt11CaZ5s",
+        authDomain: "paytrust-71e30.firebaseapp.com",
+        databaseURL: "https://paytrust-71e30-default-rtdb.firebaseio.com/",
+        projectId: "paytrust-71e30",
+        storageBucket: "paytrust-71e30.appspot.com",
+        messagingSenderId: "492609516838",
+        appId: "1:492609516838:android:5a924ad3b7e8e508fa3de7",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const database = firebase.database();
+
+      // Global variables
+      let currentUser = null;
+      let currentBalance = 0;
+      const exchangeRate = 1500; // $1 = ₦1500
+      let processingWithdrawal = false;
+
+      // Initialize app
+      document.addEventListener("DOMContentLoaded", function () {
+        // Hide preloader
+        setTimeout(() => {
+          document.querySelector(".preloader").classList.add("fade-out");
+          setTimeout(() => {
+            document.querySelector(".preloader").style.display = "none";
+          }, 500);
+        }, 1000);
+
+        // Check authentication
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            currentUser = user;
+            initializeUserData();
+          } else {
+            window.location.href = "login.html";
+          }
+        });
+
+        // Setup form event listeners
+        setupForms();
+      });
+
+      // Initialize user data
+      function initializeUserData() {
+        database
+          .ref("users/" + currentUser.uid)
+          .once("value")
+          .then((snapshot) => {
+            const userData = snapshot.val();
+            if (userData) {
+              document.getElementById("userName").textContent =
+                userData.name || "User";
+              document.getElementById("userAvatar").textContent = (
+                userData.name || "User"
+              )
+                .charAt(0)
+                .toUpperCase();
+
+              // Update balance
+              if (userData.balance !== undefined) {
+                currentBalance = parseFloat(userData.balance) || 0;
+                updateBalanceDisplay();
+              }
+            }
+          });
+      }
+
+      // Update balance display
+      function updateBalanceDisplay() {
+        document.getElementById("currentBalance").textContent =
+          currentBalance.toFixed(2);
+        document.getElementById("nairaEquivalent").textContent = (
+          currentBalance * exchangeRate
+        ).toFixed(2);
+
+        // Update submit buttons state
+        const cryptoSubmitBtn = document.getElementById("cryptoSubmitBtn");
+        const bankSubmitBtn = document.getElementById("bankSubmitBtn");
+
+        if (currentBalance >= 100) {
+          cryptoSubmitBtn.disabled = false;
+          bankSubmitBtn.disabled = false;
+        } else {
+          cryptoSubmitBtn.disabled = true;
+          bankSubmitBtn.disabled = true;
+        }
+      }
+
+      // Switch between withdrawal tabs
+      function switchWithdrawalTab(tab) {
+        // Update tabs
+        document.querySelectorAll(".withdrawal-tab").forEach((t) => {
+          t.classList.remove("active");
+        });
+        document
+          .querySelector(`.withdrawal-tab[onclick*="${tab}"]`)
+          .classList.add("active");
+
+        // Update content
+        document.querySelectorAll(".withdrawal-content").forEach((c) => {
+          c.classList.remove("active");
+        });
+        document.getElementById(`${tab}Withdrawal`).classList.add("active");
+      }
+
+      // Setup form event listeners
+      function setupForms() {
+        // Crypto form
+        const cryptoForm = document.getElementById("cryptoForm");
+        const cryptoAmountInput = document.getElementById("cryptoAmount");
+        const cryptoReceiveAmount = document.getElementById(
+          "cryptoReceiveAmount"
+        );
+
+        cryptoAmountInput.addEventListener("input", function () {
+          const amount = parseFloat(this.value) || 0;
+          cryptoReceiveAmount.textContent = `$${amount.toFixed(2)}`;
+        });
+
+        cryptoForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          processWithdrawal("crypto");
+        });
+
+        // Bank form
+        const bankForm = document.getElementById("bankForm");
+        const bankAmountInput = document.getElementById("bankAmount");
+        const bankNairaAmount = document.getElementById("bankNairaAmount");
+
+        bankAmountInput.addEventListener("input", function () {
+          const amount = parseFloat(this.value) || 0;
+          bankNairaAmount.textContent = `₦${(amount * exchangeRate).toFixed(
+            2
+          )}`;
+        });
+
+        bankForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          processWithdrawal("bank");
+        });
+      }
+
+      // Process withdrawal
+      function processWithdrawal(type) {
+        if (processingWithdrawal) return;
+
+        const cryptoForm = document.getElementById("cryptoForm");
+        const bankForm = document.getElementById("bankForm");
+        const cryptoSubmitBtn = document.getElementById("cryptoSubmitBtn");
+        const bankSubmitBtn = document.getElementById("bankSubmitBtn");
+
+        let amount, details;
+
+        if (type === "crypto") {
+          amount = parseFloat(document.getElementById("cryptoAmount").value);
+          const walletAddress = document.getElementById("cryptoAddress").value;
+
+          if (amount > currentBalance) {
+            showMessage("Insufficient balance for this withdrawal", "error");
+            return;
+          }
+
+          if (amount < 100) {
+            showMessage("Minimum withdrawal amount is $100", "error");
+            return;
+          }
+
+          if (!walletAddress || walletAddress.length < 10) {
+            showMessage("Please enter a valid TRC20 wallet address", "error");
+            return;
+          }
+
+          details = {
+            walletAddress: walletAddress,
+            network: "TRC20",
+          };
+
+          // Show loading state
+          cryptoSubmitBtn.innerHTML =
+            '<span class="loading-spinner"></span> Processing...';
+          cryptoSubmitBtn.disabled = true;
+        } else {
+          amount = parseFloat(document.getElementById("bankAmount").value);
+          const accountName = document.getElementById("accountName").value;
+          const accountNumber = document.getElementById("accountNumber").value;
+          const bankName = document.getElementById("bankName").value;
+
+          if (amount > currentBalance) {
+            showMessage("Insufficient balance for this withdrawal", "error");
+            return;
+          }
+
+          if (amount < 100) {
+            showMessage("Minimum withdrawal amount is $100", "error");
+            return;
+          }
+
+          if (!accountName || accountName.length < 2) {
+            showMessage("Please enter a valid account name", "error");
+            return;
+          }
+
+          if (!accountNumber || accountNumber.length !== 10) {
+            showMessage(
+              "Please enter a valid 10-digit account number",
+              "error"
+            );
+            return;
+          }
+
+          if (!bankName || bankName.length < 2) {
+            showMessage("Please enter a valid bank name", "error");
+            return;
+          }
+
+          details = {
+            accountName: accountName,
+            accountNumber: accountNumber,
+            bankName: bankName,
+            nairaAmount: (amount * exchangeRate).toFixed(2),
+          };
+
+          // Show loading state
+          bankSubmitBtn.innerHTML =
+            '<span class="loading-spinner"></span> Processing...';
+          bankSubmitBtn.disabled = true;
+        }
+
+        processingWithdrawal = true;
+
+        // Create transaction data
+        const transactionData = {
+          type: "withdrawal",
+          method: type,
+          amount: amount.toFixed(2),
+          details: details,
+          status: "pending",
+          timestamp: firebase.database.ServerValue.TIMESTAMP,
+          userId: currentUser.uid,
+        };
+
+        // Push to database
+        const newTransactionRef = database.ref("transactions").push();
+
+        newTransactionRef
+          .set(transactionData)
+          .then(() => {
+            // Update user balance
+            const newBalance = currentBalance - amount;
+
+            return database
+              .ref(`users/${currentUser.uid}/balance`)
+              .set(newBalance);
+          })
+          .then(() => {
+            // Show success status
+            showStatusModal(true, type, amount, details);
+
+            // Reset forms
+            if (type === "crypto") {
+              cryptoForm.reset();
+              document.getElementById("cryptoReceiveAmount").textContent =
+                "$0.00";
+              cryptoSubmitBtn.innerHTML =
+                '<i class="fas fa-paper-plane"></i> Process Withdrawal';
+              cryptoSubmitBtn.disabled = false;
+            } else {
+              bankForm.reset();
+              document.getElementById("bankNairaAmount").textContent = "₦0.00";
+              bankSubmitBtn.innerHTML =
+                '<i class="fas fa-paper-plane"></i> Process Withdrawal';
+              bankSubmitBtn.disabled = false;
+            }
+
+            // Update current balance
+            currentBalance -= amount;
+            updateBalanceDisplay();
+          })
+          .catch((error) => {
+            console.error("Error processing withdrawal:", error);
+            showMessage("An error occurred. Please try again.", "error");
+
+            // Reset buttons
+            if (type === "crypto") {
+              cryptoSubmitBtn.innerHTML =
+                '<i class="fas fa-paper-plane"></i> Process Withdrawal';
+              cryptoSubmitBtn.disabled = false;
+            } else {
+              bankSubmitBtn.innerHTML =
+                '<i class="fas fa-paper-plane"></i> Process Withdrawal';
+              bankSubmitBtn.disabled = false;
+            }
+          })
+          .finally(() => {
+            processingWithdrawal = false;
+          });
+      }
+
+      // Show status modal
+      function showStatusModal(success, type, amount, details) {
+        const statusModal = document.getElementById("statusModal");
+        const statusIcon = document.getElementById("statusIcon");
+        const statusTitle = document.getElementById("statusTitle");
+        const statusMessage = document.getElementById("statusMessage");
+        const statusDetails = document.getElementById("statusDetails");
+
+        if (success) {
+          statusIcon.className = "status-icon success";
+          statusIcon.innerHTML = '<i class="fas fa-check"></i>';
+          statusTitle.textContent = "Withdrawal Successful";
+          statusMessage.textContent =
+            "Your withdrawal request has been submitted successfully. It will be processed within 24 hours.";
+
+          // Create details HTML
+          let detailsHTML = "";
+
+          if (type === "crypto") {
+            detailsHTML = `
+              <div class="detail-row">
+                <span class="detail-label">Amount:</span>
+                <span class="detail-value">$${amount.toFixed(2)}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Wallet Address:</span>
+                <span class="detail-value">${details.walletAddress}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Network:</span>
+                <span class="detail-value">${details.network}</span>
+              </div>
+            `;
+          } else {
+            detailsHTML = `
+              <div class="detail-row">
+                <span class="detail-label">Amount:</span>
+                <span class="detail-value">$${amount.toFixed(2)} (₦${
+              details.nairaAmount
+            })</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Account Name:</span>
+                <span class="detail-value">${details.accountName}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Account Number:</span>
+                <span class="detail-value">${details.accountNumber}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Bank Name:</span>
+                <span class="detail-value">${details.bankName}</span>
+              </div>
+            `;
+          }
+
+          statusDetails.innerHTML = detailsHTML;
+        } else {
+          statusIcon.className = "status-icon error";
+          statusIcon.innerHTML = '<i class="fas fa-times"></i>';
+          statusTitle.textContent = "Withdrawal Failed";
+          statusMessage.textContent =
+            "There was an error processing your withdrawal request. Please try again later.";
+          statusDetails.innerHTML = "";
+        }
+
+        statusModal.classList.add("active");
+      }
+
+      // Close status modal
+      function closeStatusModal() {
+        const statusModal = document.getElementById("statusModal");
+        statusModal.classList.remove("active");
+      }
+
+      // Show message
+      function showMessage(text, type) {
+        const message = document.createElement("div");
+        message.className = `message ${type}`;
+        message.textContent = text;
+
+        document
+          .querySelector(".main-container")
+          .insertBefore(message, document.querySelector(".withdrawal-card"));
+
+        setTimeout(() => {
+          message.remove();
+        }, 5000);
+      }
+
+      // User menu toggle (placeholder)
+      function toggleUserMenu() {
+        console.log("User menu clicked");
+      }
+
+      // Close modal on background click
+      document
+        .getElementById("statusModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeStatusModal();
+          }
+        });
+    </script>
+  </body>
+</html>

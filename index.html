@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#e50914" />
+    <meta name="msapplication-TileColor" content="#221f1f" />
+    <meta name="theme-color" content="#221f1f" />
+
+    <!-- Primary Meta Tags -->
+    <title>MovieHatch - Premium Movie Streaming & Download Platform</title>
+    <meta
+      name="description"
+      content="Stream unlimited movies and TV shows in HD quality. Download your favorites to watch offline. Join MovieHatch for the best streaming experience with no ads."
+    />
+    <meta
+      name="keywords"
+      content="stream movies, watch TV shows, movie downloads, premium streaming, HD movies, no ads streaming, online cinema"
+    />
+    <meta name="author" content="MovieHatch" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://moviehatch.onrender.com/" />
+    <meta
+      property="og:title"
+      content="MovieHatch - Premium Movie Streaming & Download Platform"
+    />
+    <meta
+      property="og:description"
+      content="Stream unlimited movies and TV shows in HD quality. Download your favorites to watch offline with MovieHatch."
+    />
+    <meta
+      property="og:image"
+      content="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://moviehatch.onrender.com/" />
+    <meta
+      name="twitter:title"
+      content="MovieHatch - Premium Movie Streaming & Download Platform"
+    />
+    <meta
+      name="twitter:description"
+      content="Stream unlimited movies and TV shows in HD quality. Download your favorites to watch offline with MovieHatch."
+    />
+    <meta
+      name="twitter:image"
+      content="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+
+    <!-- Structured Data / Schema Markup -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "MovieHatch",
+        "url": "https://moviehatch.onrender.com",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://moviehatch.onrender.com/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "MovieHatch",
+        "url": "https://moviehatch.onrender.com",
+        "logo": "https://cdn-icons-png.flaticon.com/128/6878/6878693.png",
+        "sameAs": [
+          "https://moviehatch.onrender.com",
+          "https://moviehatch.onrender.com",
+          "https://moviehatch.onrender.com"
+        ]
+      }
+    </script>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://moviehatch.onrender.com" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #e50914;
+        --primary-dark: #b2070f;
+        --secondary: #221f1f;
+        --light: #f5f5f1;
+        --dark: #000000;
+        --gold: #ffd700;
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: var(--secondary);
+        color: var(--light);
+        overflow-x: hidden;
+      }
+
+      /* Preloader */
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--secondary);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+
+      .preloader.fade-out {
+        opacity: 0;
+      }
+
+      .loader {
+        width: 50px;
+        height: 50px;
+        border: 5px solid var(--light);
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Header */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+        transition: background-color 0.5s ease;
+      }
+
+      header.scrolled {
+        background-color: rgba(0, 0, 0, 0.9);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        font-size: 2.5rem;
+        color: var(--primary);
+        text-decoration: none;
+        position: relative;
+        display: inline-block;
+      }
+
+      .logo span {
+        display: inline-block;
+      }
+
+      .logo:hover span {
+        animation: bounce 0.5s ease;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .logo::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), var(--gold));
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.5s ease;
+      }
+
+      .logo:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+      }
+
+      nav ul li {
+        margin-left: 30px;
+      }
+
+      nav ul li a {
+        color: var(--light);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1.1rem;
+        transition: var(--transition);
+        position: relative;
+      }
+
+      nav ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--primary);
+        transition: var(--transition);
+      }
+
+      nav ul li a:hover::after {
+        width: 100%;
+      }
+
+      nav ul li a:hover {
+        color: var(--primary);
+      }
+
+      .auth-buttons .btn {
+        margin-left: 15px;
+        padding: 8px 20px;
+        border-radius: 4px;
+        font-weight: 600;
+        transition: var(--transition);
+      }
+
+      .btn-login {
+        background: transparent;
+        border: 1px solid var(--light);
+        color: var(--light);
+      }
+
+      .btn-login:hover {
+        background: var(--light);
+        color: var(--dark);
+      }
+
+      .btn-signup {
+        background: var(--primary);
+        border: 1px solid var(--primary);
+        color: var(--light);
+      }
+
+      .btn-signup:hover {
+        background: var(--primary-dark);
+        border-color: var(--primary-dark);
+      }
+
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--light);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 100vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+          url("https://source.unsplash.com/random/1920x1080/?movie,theater")
+            no-repeat center center/cover;
+        display: flex;
+        align-items: center;
+        padding: 0 5%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-content {
+        max-width: 600px;
+        z-index: 10;
+        transform: translateY(50px);
+        opacity: 0;
+        animation: fadeInUp 1s ease forwards 0.5s;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        line-height: 1.2;
+      }
+
+      .hero h1 span {
+        color: var(--primary);
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        line-height: 1.6;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 20px;
+      }
+
+      .btn {
+        padding: 12px 30px;
+        border-radius: 4px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: var(--transition);
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: var(--light);
+        border: 1px solid var(--primary);
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+        border-color: var(--primary-dark);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--light);
+        border: 1px solid var(--light);
+      }
+
+      .btn-secondary:hover {
+        background: var(--light);
+        color: var(--dark);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .floating-elements {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      .floating-element {
+        position: absolute;
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.1;
+        animation: float 15s infinite linear;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        100% {
+          transform: translateY(-1000px) rotate(720deg);
+        }
+      }
+
+      /* Features Section */
+      .features {
+        padding: 100px 5%;
+        background: var(--dark);
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+        position: relative;
+      }
+
+      .section-title h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        color: var(--light);
+        margin-bottom: 20px;
+      }
+
+      .section-title p {
+        max-width: 700px;
+        margin: 0 auto;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.1rem;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .feature-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        padding: 40px 30px;
+        text-align: center;
+        transition: var(--transition);
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      .feature-card.animate {
+        animation: fadeInUp 0.8s ease forwards;
+      }
+
+      .feature-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .feature-card:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .feature-icon {
+        font-size: 3rem;
+        color: var(--primary);
+        margin-bottom: 20px;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: var(--light);
+      }
+
+      .feature-card p {
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
+      }
+
+      /* Movies Section */
+      .movies {
+        padding: 100px 5%;
+        background: var(--secondary);
+      }
+
+      .movies-slider {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .movies-container {
+        display: flex;
+        gap: 20px;
+        padding: 20px 0;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scrollbar-width: none; /* Firefox */
+      }
+
+      .movies-container::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+      }
+
+      .movie-card {
+        min-width: 250px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        overflow: hidden;
+        transition: var(--transition);
+        position: relative;
+      }
+
+      .movie-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      }
+
+      .movie-card img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+      }
+
+      .movie-info {
+        padding: 15px;
+      }
+
+      .movie-info h3 {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .movie-meta {
+        display: flex;
+        justify-content: space-between;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+      }
+
+      .movie-rating {
+        color: var(--gold);
+      }
+
+      .movie-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 20px;
+        opacity: 0;
+        transition: var(--transition);
+      }
+
+      .movie-card:hover .movie-overlay {
+        opacity: 1;
+      }
+
+      .movie-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .movie-actions .btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        flex: 1;
+        text-align: center;
+      }
+
+      .slider-nav {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 30px;
+      }
+
+      .slider-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .slider-dot.active {
+        background: var(--primary);
+        transform: scale(1.2);
+      }
+
+      /* Pricing Section */
+      .pricing {
+        padding: 100px 5%;
+        background: var(--dark);
+      }
+
+      .pricing-plans {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .pricing-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        padding: 40px 30px;
+        text-align: center;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pricing-card.popular {
+        border: 2px solid var(--gold);
+      }
+
+      .popular-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: var(--gold);
+        color: var(--dark);
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .pricing-card h3 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        color: var(--light);
+      }
+
+      .price {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 20px;
+      }
+
+      .price span {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .pricing-features {
+        margin-bottom: 30px;
+      }
+
+      .pricing-features li {
+        list-style: none;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .pricing-features li:last-child {
+        border-bottom: none;
+      }
+
+      .pricing-features li i {
+        color: var(--primary);
+        margin-right: 10px;
+      }
+
+      /* Testimonials Section */
+      .testimonials {
+        padding: 100px 5%;
+        background: var(--secondary);
+      }
+
+      .testimonials-container {
+        display: flex;
+        gap: 30px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding: 30px 0;
+        scrollbar-width: none;
+      }
+
+      .testimonials-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .testimonial-card {
+        min-width: 350px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 30px;
+        border-radius: 10px;
+        scroll-snap-align: start;
+      }
+
+      .testimonial-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .testimonial-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+      }
+
+      .testimonial-author h4 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+      }
+
+      .testimonial-author p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+      }
+
+      .testimonial-rating {
+        color: var(--gold);
+        margin-bottom: 15px;
+      }
+
+      .testimonial-text {
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      /* CTA Section */
+      .cta {
+        padding: 100px 5%;
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+          url("https://source.unsplash.com/random/1920x1080/?cinema") no-repeat
+            center center/cover;
+        text-align: center;
+      }
+
+      .cta h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .cta p {
+        max-width: 700px;
+        margin: 0 auto 30px;
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .cta-form {
+        max-width: 500px;
+        margin: 0 auto;
+        display: flex;
+      }
+
+      .cta-form input {
+        flex: 1;
+        padding: 15px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+        font-size: 1rem;
+      }
+
+      .cta-form button {
+        padding: 15px 30px;
+        background: var(--primary);
+        color: var(--light);
+        border: none;
+        border-radius: 0 4px 4px 0;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .cta-form button:hover {
+        background: var(--primary-dark);
+      }
+
+      /* Footer */
+      footer {
+        background: var(--dark);
+        padding: 70px 5% 30px;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 50px;
+      }
+
+      .footer-column h3 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        color: var(--light);
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-column h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background: var(--primary);
+      }
+
+      .footer-column ul {
+        list-style: none;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 10px;
+      }
+
+      .footer-column ul li a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-column ul li a:hover {
+        color: var(--primary);
+        padding-left: 5px;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+      }
+
+      .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--light);
+        transition: var(--transition);
+      }
+
+      .social-links a:hover {
+        background: var(--primary);
+        transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.9rem;
+      }
+
+      /* Back to Top Button */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: var(--primary);
+        color: var(--light);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+        z-index: 99;
+      }
+
+      .back-to-top.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .back-to-top:hover {
+        background: var(--primary-dark);
+        transform: translateY(-5px);
+      }
+
+      /* Mobile Menu */
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 300px;
+        height: 100vh;
+        background: var(--dark);
+        z-index: 1000;
+        transition: var(--transition);
+        padding: 80px 30px 30px;
+        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .mobile-menu.active {
+        right: 0;
+      }
+
+      .mobile-menu ul {
+        list-style: none;
+      }
+
+      .mobile-menu ul li {
+        margin-bottom: 20px;
+      }
+
+      .mobile-menu ul li a {
+        color: var(--light);
+        text-decoration: none;
+        font-size: 1.1rem;
+        transition: var(--transition);
+      }
+
+      .mobile-menu ul li a:hover {
+        color: var(--primary);
+      }
+
+      .mobile-auth-buttons {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .close-menu-btn {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        background: none;
+        border: none;
+        color: var(--light);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+      }
+
+      .overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 992px) {
+        .hero h1 {
+          font-size: 2.8rem;
+        }
+
+        nav ul {
+          display: none;
+        }
+
+        .auth-buttons {
+          display: none;
+        }
+
+        .mobile-menu-btn {
+          display: block;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.2rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .hero-buttons {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .btn {
+          width: 100%;
+          text-align: center;
+        }
+
+        .section-title h2 {
+          font-size: 2rem;
+        }
+
+        .cta-form {
+          flex-direction: column;
+        }
+
+        .cta-form input {
+          border-radius: 4px;
+          margin-bottom: 10px;
+        }
+
+        .cta-form button {
+          border-radius: 4px;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .logo {
+          font-size: 2rem;
+        }
+
+        .hero h1 {
+          font-size: 1.8rem;
+        }
+
+        .feature-card,
+        .pricing-card {
+          padding: 30px 20px;
+        }
+
+        .testimonial-card {
+          min-width: 280px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div class="preloader">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <a href="https://movieh.onrender.com" class="logo">
+        <span>M</span><span>o</span><span>v</span><span>i</span><span>e</span
+        ><span>H</span><span>a</span><span>t</span><span>c</span><span>h</span>
+      </a>
+
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#movies">Movies</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+        </ul>
+      </nav>
+
+      <div class="auth-buttons">
+        <a href="login.html" class="btn btn-login">Login</a>
+        <a href="signup.html" class="btn btn-signup">Sign Up</a>
+      </div>
+
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+      <button class="close-menu-btn">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#movies">Movies</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+      </ul>
+
+      <div class="mobile-auth-buttons">
+        <a href="login.html" class="btn btn-login">Login</a>
+        <a href="signup.html" class="btn btn-signup">Sign Up</a>
+      </div>
+    </div>
+
+    <div class="overlay"></div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h1>Unlimited <span>Movies</span>, TV Shows & More</h1>
+        <p>
+          Watch anywhere. Download anytime. Enjoy on any device. Join millions
+          of happy subscribers streaming their favorite content on MovieHatch.
+        </p>
+        <div class="hero-buttons">
+          <a href="login.html" class="btn btn-primary">Get Started</a>
+          <a href="#" class="btn btn-secondary">Learn More</a>
+        </div>
+      </div>
+
+      <!-- <div class="floating-elements">
+            <div class="floating-element" style="top: 10%; left: 5%; width: 50px; height: 50px; background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%23e50914\"><path d=\"M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z\"/></svg>'); animation-delay: 0s;"></div>
+            <div class="floating-element" style="top: 20%; left: 80%; width: 40px; height: 40px; background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%23e50914\"><path d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z\"/></svg>'); animation-delay: 2s;"></div>
+            <div class="floating-element" style="top: 70%; left: 15%; width: 60px; height: 60px; background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%23e50914\"><path d=\"M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z\"/></svg>'); animation-delay: 4s;"></div>
+            <div class="floating-element" style="top: 60%; left: 70%; width: 30px; height: 30px; background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%23e50914\"><path d=\"M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7.5 13h2v2H11V9H9.5v2.5h-2V9H6v6h1.5zM18 14v-4c0-.55-.45-1-1-1h-4v6h4c.55 0 1-.45 1-1zm-1.5-.5h-2v-3h2v3z\"/></svg>'); animation-delay: 6s;"></div>
+            <div class="floating-element" style="top: 30%; left: 50%; width: 45px; height: 45px; background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%23e50914\"><path d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z\"/></svg>'); animation-delay: 8s;"></div>
+        </div> -->
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+      <div class="section-title">
+        <h2>Why Choose MovieHatch</h2>
+        <p>
+          Discover the ultimate streaming experience with our premium features
+          designed for movie lovers.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-film"></i>
+          </div>
+          <h3>Extensive Library</h3>
+          <p>
+            Access thousands of movies and TV shows from all genres, including
+            exclusive content you won't find anywhere else.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-download"></i>
+          </div>
+          <h3>Download & Watch Offline</h3>
+          <p>
+            Download your favorite movies and shows to watch later without
+            needing an internet connection.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-tv"></i>
+          </div>
+          <h3>Watch Anywhere</h3>
+          <p>
+            Stream on your phone, tablet, laptop, or TV with our multi-platform
+            compatible app.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-adjust"></i>
+          </div>
+          <h3>No Ads</h3>
+          <p>
+            Enjoy uninterrupted viewing with our completely ad-free experience
+            on all plans.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-star"></i>
+          </div>
+          <h3>Premium Content</h3>
+          <p>
+            Exclusive access to award-winning films, documentaries, and original
+            series.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3>Multiple Profiles</h3>
+          <p>
+            Create up to 5 individual profiles so everyone gets personalized
+            recommendations.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Movies Section -->
+    <section class="movies" id="movies">
+      <div class="section-title">
+        <h2>Popular Movies</h2>
+        <p>
+          Browse our collection of trending movies and discover your next
+          favorite.
+        </p>
+      </div>
+
+      <div class="movies-slider">
+        <div class="movies-container">
+          <div class="movie-card">
+            <img
+              src="https://th.bing.com/th/id/OIP.d5xX32FxumpQX_wvH3fVlgHaEK?r=0&rs=1&pid=ImgDetMain"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <h3>Captain America</h3>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="movie-rating"
+                  ><i class="fas fa-star"></i> 8.7</span
+                >
+              </div>
+            </div>
+            <div class="movie-overlay">
+              <h3>Brave New World</h3>
+              <p>
+                Sam Wilson embraces his role as Captain America to face a global
+                threat involving mind control.
+              </p>
+              <div class="movie-actions">
+                <a href="login.html" class="btn btn-primary">Watch Now</a>
+                <a href="login.html" class="btn btn-secondary">Download</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="movie-card">
+            <img
+              src="https://m.media-amazon.com/images/M/MV5BYzFjMzNjOTktNDBlNy00YWZhLWExYTctZDcxNDA4OWVhOTJjXkEyXkFqcGc%40._V1_.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <h3>A Minecraft Movie</h3>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="movie-rating"
+                  ><i class="fas fa-star"></i> 9.1</span
+                >
+              </div>
+            </div>
+            <div class="movie-overlay">
+              <h3>A Minecraft Movie</h3>
+              <p>
+                Four misfit teens are transported into the Minecraft world to
+                save it from destruction.
+              </p>
+              <div class="movie-actions">
+                <a href="login.html" class="btn btn-primary">Watch Now</a>
+                <a href="login.html" class="btn btn-secondary">Download</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="movie-card">
+            <img
+              src="https://images.openai.com/thumbnails/3746dd9de4757866f1d95ee041a14d28.jpeg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <h3>Lilo & Stitch</h3>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="movie-rating"
+                  ><i class="fas fa-star"></i> 7.5</span
+                >
+              </div>
+            </div>
+            <div class="movie-overlay">
+              <h3>Lilo & Stitch</h3>
+              <p>
+                A lonely girl befriends a chaotic alien, forming an unbreakable
+                bond of family and love.
+              </p>
+              <div class="movie-actions">
+                <a href="login.html" class="btn btn-primary">Watch Now</a>
+                <a href="login.html" class="btn btn-secondary">Download</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="movie-card">
+            <img
+              src="https://images.openai.com/thumbnails/3ebf09e9b2dbb9ef10cf9e6fd23dc857.jpeg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <h3>Mission impossible</h3>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="movie-rating"
+                  ><i class="fas fa-star"></i> 6.9</span
+                >
+              </div>
+            </div>
+            <div class="movie-overlay">
+              <h3>Mission impossible</h3>
+              <p>
+                Ethan Hunt leads a high-stakes mission to stop a global threat
+                against impossible odds.
+              </p>
+              <div class="movie-actions">
+                <a href="login.html" class="btn btn-primary">Watch Now</a>
+                <a href="login.html" class="btn btn-secondary">Download</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="movie-card">
+            <img
+              src="https://images.openai.com/thumbnails/00512b25c6a8cbbe5e514d82ea06e4ca.jpeg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <h3>Snow White</h3>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="movie-rating"
+                  ><i class="fas fa-star"></i> 8.3</span
+                >
+              </div>
+            </div>
+            <div class="movie-overlay">
+              <h3>Snow White</h3>
+              <p>
+                A live-action reimagining of the classic tale, starring Rachel
+                Zegler as Snow White and Gal Gadot as the Evil Queen
+              </p>
+              <div class="movie-actions">
+                <a href="login.html" class="btn btn-primary">Watch Now</a>
+                <a href="login.html" class="btn btn-secondary">Download</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="movie-card">
+            <img
+              src="https://m.media-amazon.com/images/M/MV5BNDU2ODUzZWItMGNhMS00YjAxLWE5ZGMtYWU1Nzk1MjMzZjlmXkEyXkFqcGc%40._V1_FMjpg_UX1000_.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <h3>Jurassic World: Rebirth</h3>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="movie-rating"
+                  ><i class="fas fa-star"></i> 8.9</span
+                >
+              </div>
+            </div>
+            <div class="movie-overlay">
+              <h3>Jurassic World: Rebirth</h3>
+              <p>
+                Humanity attempts to coexist with dinosaurs in a world where
+                they roam free, leading to thrilling new adventures
+              </p>
+              <div class="movie-actions">
+                <a href="#" class="btn btn-primary">Watch Now</a>
+                <a href="#" class="btn btn-secondary">Download</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slider-nav">
+          <div class="slider-dot active"></div>
+          <div class="slider-dot"></div>
+          <div class="slider-dot"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+      <div class="section-title">
+        <h2>Choose Your Plan</h2>
+        <p>Flexible pricing plans that fit your viewing habits and budget.</p>
+      </div>
+
+      <div class="pricing-plans">
+        <div class="pricing-card">
+          <h3>Basic</h3>
+          <div class="price">$8.99<span>/month</span></div>
+          <ul class="pricing-features">
+            <li><i class="fas fa-check"></i> HD Available</li>
+            <li><i class="fas fa-check"></i> 1 Screen at a time</li>
+            <li><i class="fas fa-check"></i> Download on 1 device</li>
+            <li><i class="fas fa-check"></i> Thousands of movies</li>
+            <li><i class="fas fa-check"></i> Cancel anytime</li>
+          </ul>
+          <a href="login.html" class="btn btn-primary">Get Started</a>
+        </div>
+
+        <div class="pricing-card popular">
+          <div class="popular-badge">Most Popular</div>
+          <h3>Standard</h3>
+          <div class="price">$12.99<span>/month</span></div>
+          <ul class="pricing-features">
+            <li><i class="fas fa-check"></i> Full HD Available</li>
+            <li><i class="fas fa-check"></i> 2 Screens at a time</li>
+            <li><i class="fas fa-check"></i> Download on 2 devices</li>
+            <li><i class="fas fa-check"></i> Thousands of movies</li>
+            <li><i class="fas fa-check"></i> Cancel anytime</li>
+          </ul>
+          <a href="login.html" class="btn btn-primary">Get Started</a>
+        </div>
+
+        <div class="pricing-card">
+          <h3>Premium</h3>
+          <div class="price">$15.99<span>/month</span></div>
+          <ul class="pricing-features">
+            <li><i class="fas fa-check"></i> Ultra HD Available</li>
+            <li><i class="fas fa-check"></i> 4 Screens at a time</li>
+            <li><i class="fas fa-check"></i> Download on 4 devices</li>
+            <li><i class="fas fa-check"></i> Thousands of movies</li>
+            <li><i class="fas fa-check"></i> Cancel anytime</li>
+          </ul>
+          <a href="login.html" class="btn btn-primary">Get Started</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+      <div class="section-title">
+        <h2>What Our Users Say</h2>
+        <p>
+          Don't just take our word for it. Here's what our subscribers have to
+          say about MovieHatch.
+        </p>
+      </div>
+
+      <div class="testimonials-container">
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <img
+              src="https://randomuser.me/api/portraits/women/32.jpg"
+              alt="User"
+              class="testimonial-img"
+            />
+            <div class="testimonial-author">
+              <h4>Sarah Johnson</h4>
+              <p>Movie Enthusiast</p>
+            </div>
+          </div>
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p class="testimonial-text">
+            "MovieHatch has completely changed how I watch films. The download
+            feature is a game-changer for my commute, and the selection is
+            unmatched. Worth every penny!"
+          </p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <img
+              src="https://randomuser.me/api/portraits/men/45.jpg"
+              alt="User"
+              class="testimonial-img"
+            />
+            <div class="testimonial-author">
+              <h4>Michael Chen</h4>
+              <p>Film Critic</p>
+            </div>
+          </div>
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+          </div>
+          <p class="testimonial-text">
+            "As someone who reviews movies professionally, I appreciate the
+            quality of the streams and the depth of the catalog. The 4K HDR
+            content is particularly impressive."
+          </p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <img
+              src="https://randomuser.me/api/portraits/women/68.jpg"
+              alt="User"
+              class="testimonial-img"
+            />
+            <div class="testimonial-author">
+              <h4>Emily Rodriguez</h4>
+              <p>Busy Mom</p>
+            </div>
+          </div>
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p class="testimonial-text">
+            "With three kids, I need my downtime. MovieHatch lets me download
+            shows to watch offline during soccer practice or while waiting in
+            the car. Lifesaver!"
+          </p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <img
+              src="https://randomuser.me/api/portraits/men/22.jpg"
+              alt="User"
+              class="testimonial-img"
+            />
+            <div class="testimonial-author">
+              <h4>David Wilson</h4>
+              <p>Frequent Traveler</p>
+            </div>
+          </div>
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p class="testimonial-text">
+            "The offline viewing feature is perfect for long flights. I've tried
+            other services, but MovieHatch has the best selection of
+            downloadable content."
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+      <h2>Ready to Start Streaming?</h2>
+      <p>
+        Join MovieHatch today and get unlimited access to thousands of movies
+        and TV shows. Cancel anytime.
+      </p>
+      <form class="cta-form">
+        <input type="email" placeholder="Enter your email address" required />
+        <button type="submit">Get Started</button>
+      </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>MovieHatch</h3>
+          <p>
+            The ultimate destination for movie lovers. Stream or download
+            thousands of titles in stunning quality.
+          </p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>Navigation</h3>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#movies">Movies</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Legal</h3>
+          <ul>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">GDPR</a></li>
+            <li><a href="#">DMCA</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">System Requirements</a></li>
+            <li><a href="#">Supported Devices</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 MovieHatch. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+      // Preloader
+      window.addEventListener("load", function () {
+        const preloader = document.querySelector(".preloader");
+        preloader.classList.add("fade-out");
+
+        setTimeout(() => {
+          preloader.style.display = "none";
+        }, 500);
+      });
+
+      // Header Scroll Effect
+      window.addEventListener("scroll", function () {
+        const header = document.querySelector("header");
+        header.classList.toggle("scrolled", window.scrollY > 50);
+      });
+
+      // Mobile Menu Toggle
+      const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+      const mobileMenu = document.querySelector(".mobile-menu");
+      const overlay = document.querySelector(".overlay");
+      const closeMenuBtn = document.querySelector(".close-menu-btn");
+
+      mobileMenuBtn.addEventListener("click", function () {
+        mobileMenu.classList.add("active");
+        overlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+      });
+
+      closeMenuBtn.addEventListener("click", function () {
+        mobileMenu.classList.remove("active");
+        overlay.classList.remove("active");
+        document.body.style.overflow = "auto";
+      });
+
+      overlay.addEventListener("click", function () {
+        mobileMenu.classList.remove("active");
+        overlay.classList.remove("active");
+        document.body.style.overflow = "auto";
+      });
+
+      // Smooth Scrolling for Anchor Links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          if (this.getAttribute("href") === "#") return;
+
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            window.scrollTo({
+              top: target.offsetTop - 80,
+              behavior: "smooth",
+            });
+
+            // Close mobile menu if open
+            mobileMenu.classList.remove("active");
+            overlay.classList.remove("active");
+            document.body.style.overflow = "auto";
+          }
+        });
+      });
+
+      // Back to Top Button
+      const backToTopBtn = document.querySelector(".back-to-top");
+
+      window.addEventListener("scroll", function () {
+        if (window.pageYOffset > 300) {
+          backToTopBtn.classList.add("active");
+        } else {
+          backToTopBtn.classList.remove("active");
+        }
+      });
+
+      backToTopBtn.addEventListener("click", function () {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+
+      // Animate Features on Scroll
+      const featureCards = document.querySelectorAll(".feature-card");
+
+      function animateOnScroll() {
+        featureCards.forEach((card) => {
+          const cardPosition = card.getBoundingClientRect().top;
+          const screenPosition = window.innerHeight / 1.3;
+
+          if (cardPosition < screenPosition) {
+            card.classList.add("animate");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", animateOnScroll);
+      animateOnScroll(); // Run once on load in case elements are already in view
+
+      // Movie Slider Navigation
+      const sliderDots = document.querySelectorAll(".slider-dot");
+      const moviesContainer = document.querySelector(".movies-container");
+
+      sliderDots.forEach((dot, index) => {
+        dot.addEventListener("click", function () {
+          // Update active dot
+          sliderDots.forEach((d) => d.classList.remove("active"));
+          this.classList.add("active");
+
+          // Scroll to appropriate position
+          const scrollPosition = index * (moviesContainer.scrollWidth / 3);
+          moviesContainer.scrollTo({
+            left: scrollPosition,
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Update active dot based on scroll position
+      moviesContainer.addEventListener("scroll", function () {
+        const scrollPosition = this.scrollLeft;
+        const containerWidth = this.clientWidth;
+        const activeIndex = Math.round(scrollPosition / containerWidth);
+
+        sliderDots.forEach((dot, index) => {
+          if (index === activeIndex) {
+            dot.classList.add("active");
+          } else {
+            dot.classList.remove("active");
+          }
+        });
+      });
+
+      // Logo Animation
+      const logoLetters = document.querySelectorAll(".logo span");
+
+      logoLetters.forEach((letter, index) => {
+        letter.style.animationDelay = `${index * 0.1}s`;
+      });
+
+      // Form Submission
+      const ctaForm = document.querySelector(".cta-form");
+
+      ctaForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const emailInput = this.querySelector("input");
+        const email = emailInput.value.trim();
+
+        if (email) {
+          alert(
+            `Thank you for your interest! We'll send more information to ${email}`
+          );
+          emailInput.value = "";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#e50914" />
+    <meta name="msapplication-TileColor" content="#221f1f" />
+    <meta name="theme-color" content="#221f1f" />
+
+    <!-- Primary Meta Tags -->
+    <title>MovieHatch - Premium Movie Streaming & Download Platform</title>
+    <meta
+      name="description"
+      content="Stream unlimited movies and TV shows in HD quality. Download your favorites to watch offline. Join MovieHatch for the best streaming experience with no ads."
+    />
+    <meta
+      name="keywords"
+      content="stream movies, watch TV shows, movie downloads, premium streaming, HD movies, no ads streaming, online cinema"
+    />
+    <meta name="author" content="MovieHatch" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://moviehatch.onrender.com/" />
+    <meta
+      property="og:title"
+      content="MovieHatch - Premium Movie Streaming & Download Platform"
+    />
+    <meta
+      property="og:description"
+      content="Stream unlimited movies and TV shows in HD quality. Download your favorites to watch offline with MovieHatch."
+    />
+    <meta
+      property="og:image"
+      content="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://moviehatch.onrender.com/" />
+    <meta
+      name="twitter:title"
+      content="MovieHatch - Premium Movie Streaming & Download Platform"
+    />
+    <meta
+      name="twitter:description"
+      content="Stream unlimited movies and TV shows in HD quality. Download your favorites to watch offline with MovieHatch."
+    />
+    <meta
+      name="twitter:image"
+      content="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+
+    <!-- Structured Data / Schema Markup -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "MovieHatch",
+        "url": "https://moviehatch.onrender.com",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://moviehatch.onrender.com/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "MovieHatch",
+        "url": "https://moviehatch.onrender.com",
+        "logo": "https://cdn-icons-png.flaticon.com/128/6878/6878693.png",
+        "sameAs": [
+          "https://moviehatch.onrender.com",
+          "https://moviehatch.onrender.com",
+          "https://moviehatch.onrender.com"
+        ]
+      }
+    </script>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://moviehatch.onrender.com" />
+
+    <title>Settings - MovieHatch</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+    <style>
+      :root {
+        --primary: #e50914;
+        --primary-dark: #b2070f;
+        --secondary: #221f1f;
+        --light: #f5f5f1;
+        --dark: #000000;
+        --gold: #ffd700;
+        --green: #00d4aa;
+        --transition: all 0.3s ease;
+        --gradient: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: linear-gradient(
+          135deg,
+          var(--secondary) 0%,
+          var(--dark) 100%
+        );
+        color: var(--light);
+        overflow-x: hidden;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      /* Preloader */
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--secondary);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+
+      .preloader.fade-out {
+        opacity: 0;
+      }
+
+      .loader {
+        width: 50px;
+        height: 50px;
+        border: 5px solid var(--light);
+        border-top: 5px solid var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Header */
+      .header {
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 15px 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-weight: 300;
+        font-size: 1.8rem;
+        color: var(--primary);
+        text-decoration: none;
+        position: relative;
+      }
+
+      .logo::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--gradient);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .logo:hover::after {
+        transform: scaleX(1);
+      }
+
+      .back-btn {
+        background: var(--gradient);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .back-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+      }
+
+      /* Main Container */
+      .main-container {
+        margin-top: 80px;
+        padding: 30px 20px;
+        max-width: 1400px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .settings-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .settings-header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .settings-header p {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      /* Settings Tabs */
+      .settings-tabs {
+        display: flex;
+        margin-bottom: 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .settings-tab {
+        padding: 15px 25px;
+        background: transparent;
+        border: none;
+        color: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        position: relative;
+        font-weight: 600;
+        transition: var(--transition);
+      }
+
+      .settings-tab.active {
+        color: var(--light);
+      }
+
+      .settings-tab.active::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--gradient);
+      }
+
+      .settings-tab:hover:not(.active) {
+        color: var(--light);
+      }
+
+      /* Settings Content */
+      .settings-content {
+        display: none;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 30px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .settings-content.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Form Styles */
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--light);
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: var(--light);
+        font-size: 1rem;
+        transition: var(--transition);
+        font-family: inherit;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.2);
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+
+      /* Profile Section */
+      .profile-avatar {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .avatar-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: var(--gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .avatar-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .avatar-upload {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .avatar-upload-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--light);
+        border: 1px dashed rgba(255, 255, 255, 0.3);
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      .avatar-upload-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .avatar-note {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      /* Security Section */
+      .security-item {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .security-info h3 {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+      }
+
+      .security-info p {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .security-action .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .security-action .btn-primary {
+        background: var(--gradient);
+        color: white;
+        border: none;
+      }
+
+      .security-action .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+      }
+
+      .security-action .btn-outline {
+        background: transparent;
+        color: var(--light);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .security-action .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      /* Notifications Section */
+      .notification-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .notification-info h3 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+      }
+
+      .notification-info p {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.2);
+        transition: var(--transition);
+        border-radius: 34px;
+      }
+
+      .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: var(--transition);
+        border-radius: 50%;
+      }
+
+      input:checked + .toggle-slider {
+        background-color: var(--primary);
+      }
+
+      input:checked + .toggle-slider:before {
+        transform: translateX(26px);
+      }
+
+      /* Danger Zone */
+      .danger-zone {
+        background: rgba(229, 9, 20, 0.1);
+        border: 1px solid rgba(229, 9, 20, 0.3);
+        border-radius: 10px;
+        padding: 25px;
+        margin-top: 40px;
+      }
+
+      .danger-zone h2 {
+        color: var(--primary);
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+      }
+
+      .danger-zone p {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+      }
+
+      .danger-btn {
+        background: transparent;
+        color: var(--primary);
+        border: 1px solid var(--primary);
+        padding: 12px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 600;
+      }
+
+      .danger-btn:hover {
+        background: rgba(229, 9, 20, 0.2);
+      }
+
+      /* Save Button */
+      .save-btn {
+        background: var(--gradient);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-top: 30px;
+        box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .save-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4);
+      }
+
+      /* Message Styles */
+      .message {
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .message.success {
+        background: rgba(0, 212, 170, 0.2);
+        border: 1px solid var(--green);
+        color: var(--green);
+      }
+
+      .message.error {
+        background: rgba(229, 9, 20, 0.2);
+        border: 1px solid var(--primary);
+        color: var(--primary);
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 768px) {
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .settings-tabs {
+          overflow-x: auto;
+          padding-bottom: 10px;
+        }
+
+        .settings-tab {
+          padding: 12px 20px;
+          font-size: 0.9rem;
+        }
+
+        .profile-avatar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .settings-header h1 {
+          font-size: 2rem;
+        }
+
+        .security-item,
+        .notification-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 15px;
+        }
+
+        .security-action,
+        .notification-action {
+          width: 100%;
+        }
+
+        .security-action .btn,
+        .danger-btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div class="preloader">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <button class="back-btn" onclick="window.history.back()">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <a href="index.html" class="logo">MovieHatch</a>
+        <div style="width: 100px"></div>
+        <!-- Spacer for balance -->
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <div class="settings-header">
+        <h1>Account Settings</h1>
+        <p>Manage your account preferences and security settings</p>
+      </div>
+
+      <!-- Settings Tabs -->
+      <div class="settings-tabs">
+        <button
+          class="settings-tab active"
+          onclick="switchSettingsTab('profile')"
+        >
+          <i class="fas fa-user"></i> Profile
+        </button>
+        <button class="settings-tab" onclick="switchSettingsTab('security')">
+          <i class="fas fa-shield-alt"></i> Security
+        </button>
+        <button
+          class="settings-tab"
+          onclick="switchSettingsTab('notifications')"
+        >
+          <i class="fas fa-bell"></i> Notifications
+        </button>
+        <button class="settings-tab" onclick="switchSettingsTab('privacy')">
+          <i class="fas fa-lock"></i> Privacy
+        </button>
+      </div>
+
+      <!-- Profile Settings -->
+      <div id="profileTab" class="settings-content active">
+        <div id="messageContainer"></div>
+
+        <div class="profile-avatar">
+          <div class="avatar-image" id="avatarImage">
+            <span id="avatarInitial">U</span>
+          </div>
+          <div class="avatar-upload">
+            <label for="avatarInput" class="avatar-upload-btn">
+              <i class="fas fa-camera"></i> Change Avatar
+            </label>
+            <input
+              type="file"
+              id="avatarInput"
+              accept="image/*"
+              style="display: none"
+            />
+            <p class="avatar-note">Recommended size: 200x200 pixels</p>
+          </div>
+        </div>
+
+        <form id="profileForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+                required
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label for="accountType">Account Type</label>
+              <input
+                type="text"
+                id="accountType"
+                name="accountType"
+                class="form-control"
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="bio">Bio</label>
+            <textarea
+              id="bio"
+              name="bio"
+              class="form-control"
+              rows="4"
+              placeholder="Tell us about yourself..."
+            ></textarea>
+          </div>
+
+          <button type="submit" class="save-btn">
+            <i class="fas fa-save"></i> Save Changes
+          </button>
+        </form>
+      </div>
+
+      <!-- Security Settings -->
+      <div id="securityTab" class="settings-content">
+        <div class="security-item">
+          <div class="security-info">
+            <h3>Password</h3>
+            <p>Last changed: <span id="lastPasswordChange">Never</span></p>
+          </div>
+          <div class="security-action">
+            <button class="btn btn-primary" onclick="changePassword()">
+              Change Password
+            </button>
+          </div>
+        </div>
+
+        <div class="security-item">
+          <div class="security-info">
+            <h3>Two-Factor Authentication</h3>
+            <p>Add an extra layer of security to your account</p>
+          </div>
+          <div class="security-action">
+            <button class="btn btn-outline" onclick="setupTwoFactorAuth()">
+              Enable 2FA
+            </button>
+          </div>
+        </div>
+
+        <div class="security-item">
+          <div class="security-info">
+            <h3>Connected Devices</h3>
+            <p>Manage devices that have accessed your account</p>
+          </div>
+          <div class="security-action">
+            <button class="btn btn-outline" onclick="viewDevices()">
+              View Devices
+            </button>
+          </div>
+        </div>
+
+        <div class="danger-zone">
+          <h2>Danger Zone</h2>
+          <p>Deleting your account will remove all your data permanently.</p>
+          <button class="danger-btn" onclick="deleteAccount()">
+            <i class="fas fa-trash"></i> Delete Account
+          </button>
+        </div>
+      </div>
+
+      <!-- Notification Settings -->
+      <div id="notificationsTab" class="settings-content">
+        <div class="notification-item">
+          <div class="notification-info">
+            <h3>Email Notifications</h3>
+            <p>Receive important updates via email</p>
+          </div>
+          <div class="notification-action">
+            <label class="toggle-switch">
+              <input type="checkbox" id="emailNotifications" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="notification-item">
+          <div class="notification-info">
+            <h3>Push Notifications</h3>
+            <p>Get instant alerts on your device</p>
+          </div>
+          <div class="notification-action">
+            <label class="toggle-switch">
+              <input type="checkbox" id="pushNotifications" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="notification-item">
+          <div class="notification-info">
+            <h3>New Movies</h3>
+            <p>Notify me when new movies are added</p>
+          </div>
+          <div class="notification-action">
+            <label class="toggle-switch">
+              <input type="checkbox" id="newMoviesNotification" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="notification-item">
+          <div class="notification-info">
+            <h3>Special Offers</h3>
+            <p>Receive promotions and special offers</p>
+          </div>
+          <div class="notification-action">
+            <label class="toggle-switch">
+              <input type="checkbox" id="offersNotification" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <button class="save-btn" onclick="saveNotificationSettings()">
+          <i class="fas fa-save"></i> Save Preferences
+        </button>
+      </div>
+
+      <!-- Privacy Settings -->
+      <div id="privacyTab" class="settings-content">
+        <div class="notification-item">
+          <div class="notification-info">
+            <h3>Public Profile</h3>
+            <p>Allow others to view your profile and uploaded movies</p>
+          </div>
+          <div class="notification-action">
+            <label class="toggle-switch">
+              <input type="checkbox" id="publicProfile" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="notification-item">
+          <div class="notification-info">
+            <h3>Activity Status</h3>
+            <p>Show when you're online and watching movies</p>
+          </div>
+          <div class="notification-action">
+            <label class="toggle-switch">
+              <input type="checkbox" id="activityStatus" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="notification-item">
+          <div class="notification-info">
+            <h3>Data Collection</h3>
+            <p>Allow us to collect analytics to improve our service</p>
+          </div>
+          <div class="notification-action">
+            <label class="toggle-switch">
+              <input type="checkbox" id="dataCollection" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="notification-item">
+          <div class="notification-info">
+            <h3>Personalized Ads</h3>
+            <p>Show ads based on your viewing preferences</p>
+          </div>
+          <div class="notification-action">
+            <label class="toggle-switch">
+              <input type="checkbox" id="personalizedAds" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <button class="save-btn" onclick="savePrivacySettings()">
+          <i class="fas fa-save"></i> Save Preferences
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDJP2XIR51qGTLINiKvEoscYTMt11CaZ5s",
+        authDomain: "paytrust-71e30.firebaseapp.com",
+        databaseURL: "https://paytrust-71e30-default-rtdb.firebaseio.com/",
+        projectId: "paytrust-71e30",
+        storageBucket: "paytrust-71e30.appspot.com",
+        messagingSenderId: "492609516838",
+        appId: "1:492609516838:android:5a924ad3b7e8e508fa3de7",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const database = firebase.database();
+
+      // Global variables
+      let currentUser = null;
+      let userData = null;
+
+      // Initialize app
+      document.addEventListener("DOMContentLoaded", function () {
+        // Hide preloader
+        setTimeout(() => {
+          document.querySelector(".preloader").classList.add("fade-out");
+          setTimeout(() => {
+            document.querySelector(".preloader").style.display = "none";
+          }, 500);
+        }, 1000);
+
+        // Check authentication
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            currentUser = user;
+            loadUserData();
+          } else {
+            window.location.href = "login.html";
+          }
+        });
+
+        // Avatar upload
+        document
+          .getElementById("avatarInput")
+          .addEventListener("change", function (e) {
+            const file = e.target.files[0];
+            if (file) {
+              uploadAvatar(file);
+            }
+          });
+
+        // Profile form submission
+        document
+          .getElementById("profileForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            saveProfile();
+          });
+      });
+
+      // Load user data
+      function loadUserData() {
+        database.ref("users/" + currentUser.uid).on("value", (snapshot) => {
+          userData = snapshot.val();
+          if (userData) {
+            // Populate profile form
+            document.getElementById("name").value = userData.name || "";
+            document.getElementById("email").value = currentUser.email || "";
+            document.getElementById("phone").value = userData.phone || "";
+            document.getElementById("accountType").value =
+              userData.accountType === "creator" ? "Content Creator" : "Viewer";
+            document.getElementById("bio").value = userData.bio || "";
+
+            // Set avatar initial
+            const avatarInitial = document.getElementById("avatarInitial");
+            avatarInitial.textContent = (userData.name || "User")
+              .charAt(0)
+              .toUpperCase();
+
+            // Load avatar image if exists
+            if (userData.avatarUrl) {
+              const avatarImage = document.getElementById("avatarImage");
+              avatarImage.innerHTML = `<img src="${userData.avatarUrl}" alt="${userData.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">`;
+              avatarImage.appendChild(avatarInitial);
+              avatarInitial.style.display = "none";
+            }
+
+            // Load notification settings
+            if (userData.notifications) {
+              document.getElementById("emailNotifications").checked =
+                userData.notifications.email || true;
+              document.getElementById("pushNotifications").checked =
+                userData.notifications.push || true;
+              document.getElementById("newMoviesNotification").checked =
+                userData.notifications.newMovies || true;
+              document.getElementById("offersNotification").checked =
+                userData.notifications.offers || true;
+            }
+
+            // Load privacy settings
+            if (userData.privacy) {
+              document.getElementById("publicProfile").checked =
+                userData.privacy.publicProfile || true;
+              document.getElementById("activityStatus").checked =
+                userData.privacy.activityStatus || true;
+              document.getElementById("dataCollection").checked =
+                userData.privacy.dataCollection || true;
+              document.getElementById("personalizedAds").checked =
+                userData.privacy.personalizedAds || true;
+            }
+
+            // Password change date
+            if (userData.passwordChangedAt) {
+              const date = new Date(userData.passwordChangedAt);
+              document.getElementById("lastPasswordChange").textContent =
+                date.toLocaleDateString() + " at " + date.toLocaleTimeString();
+            }
+          }
+        });
+      }
+
+      // Switch settings tabs
+      function switchSettingsTab(tab) {
+        // Update tab buttons
+        document
+          .querySelectorAll(".settings-tab")
+          .forEach((btn) => btn.classList.remove("active"));
+        event.target.classList.add("active");
+
+        // Update tab content
+        document
+          .querySelectorAll(".settings-content")
+          .forEach((content) => content.classList.remove("active"));
+        document.getElementById(tab + "Tab").classList.add("active");
+      }
+
+      // Upload avatar
+      function uploadAvatar(file) {
+        // In a real app, you would upload to Firebase Storage
+        // For this example, we'll simulate a successful upload
+        showMessage("Uploading avatar...", "success");
+
+        setTimeout(() => {
+          // Simulate getting a URL after upload
+          const avatarUrl = URL.createObjectURL(file);
+
+          // Update the avatar display
+          const avatarImage = document.getElementById("avatarImage");
+          avatarImage.innerHTML = `<img src="${avatarUrl}" alt="${userData.name}">`;
+
+          // Save the URL to database
+          database
+            .ref("users/" + currentUser.uid)
+            .update({
+              avatarUrl: avatarUrl,
+            })
+            .then(() => {
+              showMessage("Avatar updated successfully!", "success");
+            })
+            .catch((error) => {
+              showMessage("Error saving avatar: " + error.message, "error");
+            });
+        }, 1500);
+      }
+
+      // Save profile
+      function saveProfile() {
+        const name = document.getElementById("name").value;
+        const phone = document.getElementById("phone").value;
+        const bio = document.getElementById("bio").value;
+
+        showMessage("Saving profile...", "success");
+
+        database
+          .ref("users/" + currentUser.uid)
+          .update({
+            name: name,
+            phone: phone,
+            bio: bio,
+          })
+          .then(() => {
+            showMessage("Profile updated successfully!", "success");
+
+            // Update avatar initial if name changed
+            if (name !== userData.name) {
+              document.getElementById("avatarInitial").textContent = name
+                .charAt(0)
+                .toUpperCase();
+            }
+          })
+          .catch((error) => {
+            showMessage("Error updating profile: " + error.message, "error");
+          });
+      }
+
+      // Change password
+      function changePassword() {
+        const newPassword = prompt(
+          "Enter your new password (min 8 characters):"
+        );
+
+        if (newPassword && newPassword.length >= 8) {
+          currentUser
+            .updatePassword(newPassword)
+            .then(() => {
+              // Update password change timestamp
+              database
+                .ref("users/" + currentUser.uid)
+                .update({
+                  passwordChangedAt: firebase.database.ServerValue.TIMESTAMP,
+                })
+                .then(() => {
+                  showMessage("Password changed successfully!", "success");
+                  loadUserData(); // Refresh the password change date
+                });
+            })
+            .catch((error) => {
+              if (error.code === "auth/requires-recent-login") {
+                // Re-authenticate user
+                reauthenticateUser().then(() => {
+                  changePassword(); // Try again after reauthentication
+                });
+              } else {
+                showMessage(
+                  "Error changing password: " + error.message,
+                  "error"
+                );
+              }
+            });
+        } else if (newPassword) {
+          showMessage("Password must be at least 8 characters", "error");
+        }
+      }
+
+      // Reauthenticate user
+      function reauthenticateUser() {
+        const password = prompt(
+          "Please enter your current password to continue:"
+        );
+
+        if (!password) return Promise.reject("No password entered");
+
+        const credential = firebase.auth.EmailAuthProvider.credential(
+          currentUser.email,
+          password
+        );
+
+        return currentUser
+          .reauthenticateWithCredential(credential)
+          .then(() => {
+            return Promise.resolve();
+          })
+          .catch((error) => {
+            showMessage("Authentication failed: " + error.message, "error");
+            return Promise.reject(error);
+          });
+      }
+
+      // Setup two-factor authentication
+      function setupTwoFactorAuth() {
+        showMessage(
+          "Two-factor authentication is not yet implemented",
+          "error"
+        );
+      }
+
+      // View connected devices
+      function viewDevices() {
+        showMessage("Device management is not yet implemented", "error");
+      }
+
+      // Delete account
+      function deleteAccount() {
+        if (
+          confirm(
+            "Are you sure you want to delete your account? This cannot be undone."
+          )
+        ) {
+          // First reauthenticate
+          reauthenticateUser().then(() => {
+            // Delete user data
+            database
+              .ref("users/" + currentUser.uid)
+              .remove()
+              .then(() => {
+                // Delete authentication
+                currentUser
+                  .delete()
+                  .then(() => {
+                    window.location.href = "index.html";
+                  })
+                  .catch((error) => {
+                    showMessage(
+                      "Error deleting account: " + error.message,
+                      "error"
+                    );
+                  });
+              })
+              .catch((error) => {
+                showMessage(
+                  "Error deleting user data: " + error.message,
+                  "error"
+                );
+              });
+          });
+        }
+      }
+
+      // Save notification settings
+      function saveNotificationSettings() {
+        const notifications = {
+          email: document.getElementById("emailNotifications").checked,
+          push: document.getElementById("pushNotifications").checked,
+          newMovies: document.getElementById("newMoviesNotification").checked,
+          offers: document.getElementById("offersNotification").checked,
+        };
+
+        database
+          .ref("users/" + currentUser.uid)
+          .update({
+            notifications: notifications,
+          })
+          .then(() => {
+            showMessage("Notification preferences saved!", "success");
+          })
+          .catch((error) => {
+            showMessage("Error saving preferences: " + error.message, "error");
+          });
+      }
+
+      // Save privacy settings
+      function savePrivacySettings() {
+        const privacy = {
+          publicProfile: document.getElementById("publicProfile").checked,
+          activityStatus: document.getElementById("activityStatus").checked,
+          dataCollection: document.getElementById("dataCollection").checked,
+          personalizedAds: document.getElementById("personalizedAds").checked,
+        };
+
+        database
+          .ref("users/" + currentUser.uid)
+          .update({
+            privacy: privacy,
+          })
+          .then(() => {
+            showMessage("Privacy preferences saved!", "success");
+          })
+          .catch((error) => {
+            showMessage("Error saving preferences: " + error.message, "error");
+          });
+      }
+
+      // Show message
+      function showMessage(text, type) {
+        const messageContainer = document.getElementById("messageContainer");
+        const message = document.createElement("div");
+        message.className = `message ${type}`;
+        message.textContent = text;
+
+        // Clear existing messages
+        messageContainer.innerHTML = "";
+        messageContainer.appendChild(message);
+
+        setTimeout(() => {
+          message.remove();
+        }, 5000);
+      }
+
+      // Show message
+      function showMessage(text, type) {
+        const messageContainer = document.getElementById("messageContainer");
+        const message = document.createElement("div");
+        message.className = `message ${type}`;
+        message.textContent = text;
+
+        // Clear existing messages
+        messageContainer.innerHTML = "";
+        messageContainer.appendChild(message);
+
+        setTimeout(() => {
+          message.remove();
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>

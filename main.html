@@ -1,0 +1,2199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#e50914" />
+    <meta name="msapplication-TileColor" content="#221f1f" />
+    <meta name="theme-color" content="#221f1f" />
+
+    <!-- Primary Meta Tags -->
+    <title>MovieHatch - Premium Movie Streaming & Download Platform</title>
+    <meta
+      name="description"
+      content="Stream unlimited movies and TV shows in HD quality. Download your favorites to watch offline. Join MovieHatch for the best streaming experience with no ads."
+    />
+    <meta
+      name="keywords"
+      content="stream movies, watch TV shows, movie downloads, premium streaming, HD movies, no ads streaming, online cinema"
+    />
+    <meta name="author" content="MovieHatch" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://moviehatch.onrender.com/" />
+    <meta
+      property="og:title"
+      content="MovieHatch - Premium Movie Streaming & Download Platform"
+    />
+    <meta
+      property="og:description"
+      content="Stream unlimited movies and TV shows in HD quality. Download your favorites to watch offline with MovieHatch."
+    />
+    <meta
+      property="og:image"
+      content="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://moviehatch.onrender.com/" />
+    <meta
+      name="twitter:title"
+      content="MovieHatch - Premium Movie Streaming & Download Platform"
+    />
+    <meta
+      name="twitter:description"
+      content="Stream unlimited movies and TV shows in HD quality. Download your favorites to watch offline with MovieHatch."
+    />
+    <meta
+      name="twitter:image"
+      content="https://cdn-icons-png.flaticon.com/128/6878/6878693.png"
+    />
+
+    <!-- Structured Data / Schema Markup -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "MovieHatch",
+        "url": "https://moviehatch.onrender.com",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://moviehatch.onrender.com/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "MovieHatch",
+        "url": "https://moviehatch.onrender.com",
+        "logo": "https://cdn-icons-png.flaticon.com/128/6878/6878693.png",
+        "sameAs": [
+          "https://moviehatch.onrender.com",
+          "https://moviehatch.onrender.com",
+          "https://moviehatch.onrender.com"
+        ]
+      }
+    </script>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://moviehatch.onrender.com" />
+
+    <title>Dashboard - MovieHatch</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
+    <style>
+      :root {
+        --primary: #e50914;
+        --primary-dark: #b2070f;
+        --secondary: #221f1f;
+        --light: #f5f5f1;
+        --dark: #000000;
+        --gold: #ffd700;
+        --green: #00d4aa;
+        --transition: all 0.3s ease;
+        --gradient: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: linear-gradient(
+          135deg,
+          var(--secondary) 0%,
+          var(--dark) 100%
+        );
+        color: var(--light);
+        overflow-x: hidden;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      /* Preloader */
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--secondary);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+
+      .preloader.fade-out {
+        opacity: 0;
+      }
+
+      .loader {
+        width: 60px;
+        height: 60px;
+        border: 6px solid var(--light);
+        border-top: 6px solid var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Header */
+      .header {
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 12px 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--primary);
+        text-decoration: none;
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      .logo::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--gradient);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .logo:hover::after {
+        transform: scaleX(1);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .balance-display {
+        background: var(--gradient);
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 3px 10px rgba(229, 9, 20, 0.3);
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+
+      .balance-display:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+      }
+
+      .balance-amount {
+        font-weight: 700;
+      }
+
+      .settings-btn,
+      .ads-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: var(--light);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+
+      .settings-btn:hover,
+      .ads-btn:hover {
+        background: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        padding: 6px 12px;
+        border-radius: 20px;
+        transition: var(--transition);
+        min-width: 0;
+      }
+
+      .user-profile:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+      }
+
+      .user-name {
+        font-size: 0.9rem;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100px;
+      }
+
+      /* Main Container */
+      .main-container {
+        margin-top: 70px;
+        padding: 20px 15px;
+        max-width: 1400px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Tab Navigation */
+      .tab-navigation {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 6px;
+        backdrop-filter: blur(10px);
+      }
+
+      .tab-btn {
+        flex: 1;
+        max-width: 200px;
+        padding: 12px 20px;
+        background: transparent;
+        border: none;
+        color: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        border-radius: 10px;
+        transition: var(--transition);
+        font-weight: 600;
+        font-size: 0.95rem;
+        position: relative;
+      }
+
+      .tab-btn.active {
+        background: var(--gradient);
+        color: var(--light);
+        box-shadow: 0 3px 10px rgba(229, 9, 20, 0.3);
+      }
+
+      .tab-btn:not(.active):hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--light);
+      }
+
+      /* Tab Content */
+      .tab-content {
+        display: none;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Creator Tab Styles */
+      .upload-section {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 25px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .section-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        text-align: center;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .upload-form {
+        display: grid;
+        gap: 20px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .form-group {
+        position: relative;
+      }
+
+      .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: var(--light);
+        font-size: 0.9rem;
+      }
+
+      .form-input,
+      .form-textarea,
+      .form-select {
+        width: 100%;
+        padding: 12px 16px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: var(--light);
+        font-size: 0.95rem;
+        transition: var(--transition);
+        font-family: inherit;
+      }
+
+      .form-input:focus,
+      .form-textarea:focus,
+      .form-select:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.2);
+      }
+
+      .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .episode-section {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        padding: 20px;
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        margin-top: 15px;
+      }
+
+      .episode-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .add-episode-btn {
+        background: var(--green);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .add-episode-btn:hover {
+        background: #00b894;
+        transform: translateY(-2px);
+      }
+
+      .episode-item {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 12px;
+        border-left: 3px solid var(--primary);
+      }
+
+      .upload-btn {
+        background: var(--gradient);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 700;
+        font-size: 1rem;
+        width: 100%;
+        margin-top: 15px;
+        box-shadow: 0 3px 10px rgba(229, 9, 20, 0.3);
+      }
+
+      .upload-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+      }
+
+      /* Viewer Tab Styles */
+      .movies-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 20px;
+        padding: 15px 0;
+      }
+
+      .movie-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: var(--transition);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+      }
+
+      .movie-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        border-color: var(--primary);
+      }
+
+      .movie-poster {
+        width: 100%;
+        height: 180px;
+        background: linear-gradient(45deg, var(--primary), var(--gold));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .movie-poster img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .movie-info {
+        padding: 15px;
+      }
+
+      .movie-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: var(--light);
+      }
+
+      .movie-description {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .movie-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        font-size: 0.8rem;
+      }
+
+      .movie-views {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 4px 10px;
+        border-radius: 12px;
+        color: var(--gold);
+        font-weight: 600;
+      }
+
+      .movie-creator {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .movie-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .action-btn {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+
+      .watch-btn {
+        background: var(--gradient);
+        color: white;
+      }
+
+      .download-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--light);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: var(--transition);
+      }
+
+      .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .stat-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .stat-value {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+        color: var(--light);
+      }
+
+      .stat-label {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.85rem;
+      }
+
+      /* Video Player Modal */
+      .video-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+      }
+
+      .video-modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .video-container {
+        max-width: 90%;
+        max-height: 90%;
+        position: relative;
+      }
+
+      .video-player {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+      }
+
+      .close-video {
+        position: absolute;
+        top: -40px;
+        right: 0;
+        background: var(--primary);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: var(--transition);
+      }
+
+      .close-video:hover {
+        background: var(--primary-dark);
+        transform: scale(1.1);
+      }
+
+      /* Ad Overlay */
+      .ad-overlay {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.9);
+        border-radius: 10px;
+        padding: 15px;
+        max-width: 300px;
+        border: 2px solid var(--primary);
+        backdrop-filter: blur(10px);
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.5s ease;
+        z-index: 10001;
+      }
+
+      .ad-overlay.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .ad-overlay.hide {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+
+      .ad-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .ad-label {
+        font-size: 0.7rem;
+        color: var(--gold);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .ad-timer {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2px 6px;
+        border-radius: 10px;
+      }
+
+      .ad-content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .ad-media {
+        width: 100%;
+        height: 120px;
+        border-radius: 6px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .ad-media img,
+      .ad-media video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .ad-text {
+        font-size: 0.9rem;
+        color: var(--light);
+        font-weight: 600;
+        text-align: center;
+        line-height: 1.3;
+      }
+
+      .ad-action {
+        background: var(--gradient);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-decoration: none;
+        text-align: center;
+        display: block;
+      }
+
+      .ad-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(229, 9, 20, 0.3);
+      }
+
+      /* Popup Ad Modal */
+      .popup-ad-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 10002;
+        backdrop-filter: blur(5px);
+      }
+
+      .popup-ad-modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .popup-ad-container {
+        background: rgba(0, 0, 0, 0.95);
+        border-radius: 15px;
+        padding: 25px;
+        max-width: 400px;
+        width: 90%;
+        border: 2px solid var(--primary);
+        position: relative;
+        animation: popupSlideIn 0.5s ease;
+      }
+
+      @keyframes popupSlideIn {
+        from {
+          opacity: 0;
+          transform: scale(0.8) translateY(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      .popup-ad-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .popup-ad-label {
+        font-size: 0.8rem;
+        color: var(--gold);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .popup-ad-timer {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.1);
+        padding: 4px 8px;
+        border-radius: 12px;
+      }
+
+      .popup-ad-media {
+        width: 100%;
+        height: 200px;
+        border-radius: 10px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+      }
+
+      .popup-ad-media img,
+      .popup-ad-media video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .popup-ad-text {
+        font-size: 1rem;
+        color: var(--light);
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 15px;
+        line-height: 1.4;
+      }
+
+      .popup-ad-action {
+        background: var(--gradient);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        text-align: center;
+        display: block;
+        width: 100%;
+      }
+
+      .popup-ad-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .header-content {
+          padding: 0 10px;
+          gap: 8px;
+        }
+
+        .logo {
+          font-size: 1.3rem;
+        }
+
+        .header-actions {
+          gap: 6px;
+        }
+
+        .balance-display {
+          padding: 6px 12px;
+          font-size: 0.8rem;
+        }
+
+        .balance-amount {
+          font-size: 0.9rem;
+        }
+
+        .settings-btn,
+        .ads-btn {
+          width: 36px;
+          height: 36px;
+          font-size: 1rem;
+        }
+
+        .user-profile {
+          padding: 4px 8px;
+        }
+
+        .user-avatar {
+          width: 28px;
+          height: 28px;
+          font-size: 0.8rem;
+        }
+
+        .user-name {
+          font-size: 0.8rem;
+          max-width: 80px;
+        }
+
+        .main-container {
+          margin-top: 65px;
+          padding: 15px 10px;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .upload-section {
+          padding: 20px 15px;
+        }
+
+        .movies-grid {
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+          gap: 15px;
+        }
+
+        .tab-navigation {
+          margin: 0 -10px 20px;
+          border-radius: 0;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .ad-overlay {
+          top: 10px;
+          right: 10px;
+          max-width: 250px;
+          padding: 12px;
+        }
+
+        .ad-media {
+          height: 100px;
+        }
+
+        .popup-ad-container {
+          padding: 20px;
+          max-width: 350px;
+        }
+
+        .popup-ad-media {
+          height: 150px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header-content {
+          gap: 5px;
+        }
+
+        .logo {
+          font-size: 1.2rem;
+        }
+
+        .balance-display {
+          padding: 5px 10px;
+          font-size: 0.75rem;
+        }
+
+        .settings-btn,
+        .ads-btn {
+          width: 32px;
+          height: 32px;
+          font-size: 0.9rem;
+        }
+
+        .user-name {
+          display: none;
+        }
+
+        .section-title {
+          font-size: 1.4rem;
+        }
+
+        .movies-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .tab-btn {
+          padding: 10px 15px;
+          font-size: 0.85rem;
+        }
+
+        .ad-overlay {
+          max-width: 200px;
+          padding: 10px;
+        }
+
+        .ad-media {
+          height: 80px;
+        }
+
+        .ad-text {
+          font-size: 0.8rem;
+        }
+
+        .popup-ad-container {
+          padding: 15px;
+          max-width: 300px;
+        }
+
+        .popup-ad-media {
+          height: 120px;
+        }
+      }
+
+      /* Loading States */
+      .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+      }
+
+      .loading-spinner {
+        width: 35px;
+        height: 35px;
+        border: 3px solid rgba(255, 255, 255, 0.1);
+        border-top: 3px solid var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      /* Success/Error Messages */
+      .message {
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        font-weight: 600;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      .message.success {
+        background: rgba(0, 212, 170, 0.2);
+        border: 1px solid var(--green);
+        color: var(--green);
+      }
+
+      .message.error {
+        background: rgba(229, 9, 20, 0.2);
+        border: 1px solid var(--primary);
+        color: var(--primary);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div class="preloader">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <a href="index.html" class="logo">MovieHatch</a>
+
+        <div class="header-actions">
+          <div class="balance-display" onclick="redirectToWallet()">
+            <i class="fas fa-wallet"></i>
+            <span class="balance-amount"
+              >$<span id="userBalance">0.00</span></span
+            >
+          </div>
+
+          <button class="ads-btn" onclick="redirectToAds()" title="Advertise">
+            <i class="fas fa-bullhorn"></i>
+          </button>
+
+          <button
+            class="settings-btn"
+            onclick="redirectToSettings()"
+            title="Settings"
+          >
+            <i class="fas fa-cog"></i>
+          </button>
+
+          <div class="user-profile" onclick="toggleUserMenu()">
+            <div class="user-avatar" id="userAvatar">U</div>
+            <span class="user-name" id="userName">User</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- Tab Navigation -->
+      <div class="tab-navigation">
+        <button class="tab-btn active" onclick="switchTab('viewer')">
+          <i class="fas fa-play-circle"></i> Viewer
+        </button>
+        <button class="tab-btn" onclick="switchTab('creator')">
+          <i class="fas fa-upload"></i> Content Creator
+        </button>
+      </div>
+
+      <!-- Viewer Tab -->
+      <div id="viewerTab" class="tab-content active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-film"></i>
+            </div>
+            <div class="stat-value" id="totalMovies">0</div>
+            <div class="stat-label">Total Movies</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-eye"></i>
+            </div>
+            <div class="stat-value" id="totalViews">0</div>
+            <div class="stat-label">Total Views</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-download"></i>
+            </div>
+            <div class="stat-value" id="totalDownloads">0</div>
+            <div class="stat-label">Downloads</div>
+          </div>
+        </div>
+
+        <div class="movies-grid" id="moviesGrid">
+          <!-- Movies will be loaded here -->
+        </div>
+      </div>
+
+      <!-- Creator Tab -->
+      <div id="creatorTab" class="tab-content">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-video"></i>
+            </div>
+            <div class="stat-value" id="myMovies">0</div>
+            <div class="stat-label">My Movies</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-eye"></i>
+            </div>
+            <div class="stat-value" id="myViews">0</div>
+            <div class="stat-label">Total Views</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-dollar-sign"></i>
+            </div>
+            <div class="stat-value">$<span id="totalEarnings">0.00</span></div>
+            <div class="stat-label">Total Earnings</div>
+          </div>
+        </div>
+
+        <div class="upload-section">
+          <h2 class="section-title">Upload New Movie</h2>
+
+          <form class="upload-form" id="uploadForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Movie Title *</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  id="movieTitle"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Video URL *</label>
+                <input type="url" class="form-input" id="videoUrl" required />
+              </div>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">Description *</label>
+              <textarea
+                class="form-textarea"
+                id="movieDescription"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Poster Image URL</label>
+                <input type="url" class="form-input" id="posterUrl" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Genre</label>
+                <select class="form-select" id="movieGenre">
+                  <option value="">Select Genre</option>
+                  <option value="action">Action</option>
+                  <option value="comedy">Comedy</option>
+                  <option value="drama">Drama</option>
+                  <option value="horror">Horror</option>
+                  <option value="romance">Romance</option>
+                  <option value="sci-fi">Sci-Fi</option>
+                  <option value="thriller">Thriller</option>
+                  <option value="documentary">Documentary</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Is this a Series?</label>
+                <select
+                  class="form-select"
+                  id="isSeries"
+                  onchange="toggleEpisodeSection()"
+                >
+                  <option value="false">No - Single Movie</option>
+                  <option value="true">Yes - TV Series</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Release Year</label>
+                <input
+                  type="number"
+                  class="form-input"
+                  id="releaseYear"
+                  min="1900"
+                  max="2030"
+                />
+              </div>
+            </div>
+
+            <div
+              class="episode-section"
+              id="episodeSection"
+              style="display: none"
+            >
+              <div class="episode-header">
+                <h3>Episodes/Seasons</h3>
+                <button
+                  type="button"
+                  class="add-episode-btn"
+                  onclick="addEpisode()"
+                >
+                  <i class="fas fa-plus"></i> Add Episode
+                </button>
+              </div>
+              <div id="episodesList"></div>
+            </div>
+
+            <button type="submit" class="upload-btn">
+              <i class="fas fa-upload"></i> Upload Movie
+            </button>
+          </form>
+        </div>
+
+        <!-- My Movies Section -->
+        <div class="upload-section">
+          <h2 class="section-title">My Movies</h2>
+          <div class="movies-grid" id="myMoviesGrid">
+            <!-- Creator's movies will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Player Modal -->
+    <div class="video-modal" id="videoModal">
+      <div class="video-container">
+        <button class="close-video" onclick="closeVideo()">
+          <i class="fas fa-times"></i>
+        </button>
+        <video class="video-player" id="videoPlayer" controls>
+          Your browser does not support the video tag.
+        </video>
+
+        <!-- Ad Overlay (appears during video playback) -->
+        <div class="ad-overlay" id="adOverlay">
+          <div class="ad-header">
+            <span class="ad-label">Advertisement</span>
+            <span class="ad-timer" id="adTimer">5s</span>
+          </div>
+          <div class="ad-content" id="adContent">
+            <!-- Ad content will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popup Ad Modal (appears every 20 minutes) -->
+    <div class="popup-ad-modal" id="popupAdModal">
+      <div class="popup-ad-container">
+        <div class="popup-ad-header">
+          <span class="popup-ad-label">Advertisement</span>
+          <span class="popup-ad-timer" id="popupAdTimer">5s</span>
+        </div>
+        <div class="popup-ad-content" id="popupAdContent">
+          <!-- Popup ad content will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDJP2XIR51qGTLINiKvEoscYTMt11CaZ5s",
+        authDomain: "paytrust-71e30.firebaseapp.com",
+        databaseURL: "https://paytrust-71e30-default-rtdb.firebaseio.com/",
+        projectId: "paytrust-71e30",
+        storageBucket: "paytrust-71e30.appspot.com",
+        messagingSenderId: "492609516838",
+        appId: "1:492609516838:android:5a924ad3b7e8e508fa3de7",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const database = firebase.database();
+
+      // Global variables
+      let currentUser = null;
+      let currentTab = "viewer";
+      let episodeCount = 0;
+      let videoWatchTime = 0;
+      let adInterval = null;
+      let currentAds = [];
+      let lastAdTime = 0;
+      let adDisplayTimer = null;
+      let popupAdTimer = null;
+
+      // Ad configuration
+      const AD_INTERVAL = 20 * 60 * 1000; // 20 minutes in milliseconds
+      const AD_DISPLAY_DURATION = 5000; // 5 seconds
+
+      // Initialize app
+      document.addEventListener("DOMContentLoaded", function () {
+        // Hide preloader
+        setTimeout(() => {
+          document.querySelector(".preloader").classList.add("fade-out");
+          setTimeout(() => {
+            document.querySelector(".preloader").style.display = "none";
+          }, 500);
+        }, 1000);
+
+        // Check authentication
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            currentUser = user;
+            initializeUserData();
+            loadMovies();
+            loadActiveAds();
+          } else {
+            window.location.href = "login.html";
+          }
+        });
+      });
+
+      // Initialize user data
+      function initializeUserData() {
+        database
+          .ref("users/" + currentUser.uid)
+          .once("value")
+          .then((snapshot) => {
+            const userData = snapshot.val();
+            if (userData) {
+              document.getElementById("userName").textContent =
+                userData.name || "User";
+              document.getElementById("userAvatar").textContent = (
+                userData.name || "User"
+              )
+                .charAt(0)
+                .toUpperCase();
+              document.getElementById("userBalance").textContent = (
+                userData.balance || 0
+              ).toFixed(2);
+            }
+          });
+      }
+
+      // Load active ads from Firebase
+      function loadActiveAds() {
+        database
+          .ref("activeAds")
+          .once("value")
+          .then((snapshot) => {
+            currentAds = [];
+            snapshot.forEach((childSnapshot) => {
+              const ad = childSnapshot.val();
+              const now = Date.now();
+
+              // Check if ad is still active
+              if (ad.endTime > now) {
+                currentAds.push({
+                  id: childSnapshot.key,
+                  ...ad,
+                });
+
+                // Increment impressions
+                database
+                  .ref(`activeAds/${childSnapshot.key}/impressions`)
+                  .transaction((impressions) => {
+                    return (impressions || 0) + 1;
+                  });
+              }
+            });
+
+            console.log("Loaded active ads:", currentAds.length);
+          })
+          .catch((error) => {
+            console.error("Error loading ads:", error);
+          });
+      }
+
+      // Get random ad
+      function getRandomAd() {
+        if (currentAds.length === 0) return null;
+        return currentAds[Math.floor(Math.random() * currentAds.length)];
+      }
+
+      // Display ad overlay
+      function displayAdOverlay() {
+        const ad = getRandomAd();
+        if (!ad) return;
+
+        const adOverlay = document.getElementById("adOverlay");
+        const adContent = document.getElementById("adContent");
+        const adTimer = document.getElementById("adTimer");
+
+        // Create ad content
+        adContent.innerHTML = `
+                <div class="ad-media">
+                    ${
+                      ad.type === "image"
+                        ? `<img src="${ad.mediaUrl}" alt="Ad" onerror="this.style.display='none';">`
+                        : `<video src="${ad.mediaUrl}" muted autoplay loop onerror="this.style.display='none';"></video>`
+                    }
+                </div>
+                <div class="ad-text">${ad.text}</div>
+                <a href="${
+                  ad.actionLink
+                }" target="_blank" class="ad-action" onclick="trackAdClick('${
+          ad.id
+        }')">${ad.actionText}</a>
+            `;
+
+        // Show overlay
+        adOverlay.classList.add("show");
+
+        // Countdown timer
+        let timeLeft = 5;
+        adTimer.textContent = timeLeft + "s";
+
+        const countdown = setInterval(() => {
+          timeLeft--;
+          adTimer.textContent = timeLeft + "s";
+
+          if (timeLeft <= 0) {
+            clearInterval(countdown);
+            adOverlay.classList.remove("show");
+            adOverlay.classList.add("hide");
+
+            setTimeout(() => {
+              adOverlay.classList.remove("hide");
+            }, 500);
+          }
+        }, 1000);
+      }
+
+      // Display popup ad
+      function displayPopupAd() {
+        const ad = getRandomAd();
+        if (!ad) return;
+
+        const popupAdModal = document.getElementById("popupAdModal");
+        const popupAdContent = document.getElementById("popupAdContent");
+        const popupAdTimer = document.getElementById("popupAdTimer");
+
+        // Create popup ad content
+        popupAdContent.innerHTML = `
+                <div class="popup-ad-media">
+                    ${
+                      ad.type === "image"
+                        ? `<img src="${ad.mediaUrl}" alt="Ad" onerror="this.style.display='none';">`
+                        : `<video src="${ad.mediaUrl}" muted autoplay loop onerror="this.style.display='none';"></video>`
+                    }
+                </div>
+                <div class="popup-ad-text">${ad.text}</div>
+                <a href="${
+                  ad.actionLink
+                }" target="_blank" class="popup-ad-action" onclick="trackAdClick('${
+          ad.id
+        }'); closePopupAd();">${ad.actionText}</a>
+            `;
+
+        // Show popup
+        popupAdModal.classList.add("active");
+
+        // Countdown timer
+        let timeLeft = 5;
+        popupAdTimer.textContent = timeLeft + "s";
+
+        const countdown = setInterval(() => {
+          timeLeft--;
+          popupAdTimer.textContent = timeLeft + "s";
+
+          if (timeLeft <= 0) {
+            clearInterval(countdown);
+            closePopupAd();
+          }
+        }, 1000);
+
+        // Store countdown interval for cleanup
+        popupAdTimer.countdownInterval = countdown;
+      }
+
+      // Close popup ad
+      function closePopupAd() {
+        const popupAdModal = document.getElementById("popupAdModal");
+        const popupAdTimer = document.getElementById("popupAdTimer");
+
+        if (popupAdTimer.countdownInterval) {
+          clearInterval(popupAdTimer.countdownInterval);
+        }
+
+        popupAdModal.classList.remove("active");
+      }
+
+      // Track ad clicks
+      function trackAdClick(adId) {
+        database.ref(`activeAds/${adId}/clicks`).transaction((clicks) => {
+          return (clicks || 0) + 1;
+        });
+      }
+
+      // Tab switching
+      function switchTab(tab) {
+        currentTab = tab;
+
+        // Update tab buttons
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        event.target.classList.add("active");
+
+        // Update tab content
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((content) => content.classList.remove("active"));
+        document.getElementById(tab + "Tab").classList.add("active");
+
+        if (tab === "creator") {
+          loadMyMovies();
+          updateCreatorStats();
+        } else {
+          loadMovies();
+          updateViewerStats();
+        }
+      }
+
+      // Navigation functions
+      function redirectToSettings() {
+        window.location.href = "settings.html";
+      }
+
+      function redirectToWallet() {
+        window.location.href = "wallet.html";
+      }
+
+      function redirectToAds() {
+        window.location.href = "ads.html";
+      }
+
+      // Episode management
+      function toggleEpisodeSection() {
+        const isSeries = document.getElementById("isSeries").value === "true";
+        const episodeSection = document.getElementById("episodeSection");
+        episodeSection.style.display = isSeries ? "block" : "none";
+      }
+
+      function addEpisode() {
+        episodeCount++;
+        const episodesList = document.getElementById("episodesList");
+        const episodeDiv = document.createElement("div");
+        episodeDiv.className = "episode-item";
+        episodeDiv.innerHTML = `
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Episode ${episodeCount} Title</label>
+                        <input type="text" class="form-input episode-title" placeholder="Episode title">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Episode ${episodeCount} URL</label>
+                        <input type="url" class="form-input episode-url" placeholder="Episode video URL">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Episode ${episodeCount} Description</label>
+                    <textarea class="form-textarea episode-description" placeholder="Episode description"></textarea>
+                </div>
+                <button type="button" onclick="removeEpisode(this)" style="background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-top: 8px; font-size: 0.85rem;">
+                    <i class="fas fa-trash"></i> Remove Episode
+                </button>
+            `;
+        episodesList.appendChild(episodeDiv);
+      }
+
+      function removeEpisode(button) {
+        button.parentElement.remove();
+      }
+
+      // Movie upload
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          uploadMovie();
+        });
+
+      function uploadMovie() {
+        const title = document.getElementById("movieTitle").value;
+        const videoUrl = document.getElementById("videoUrl").value;
+        const description = document.getElementById("movieDescription").value;
+        const posterUrl = document.getElementById("posterUrl").value;
+        const genre = document.getElementById("movieGenre").value;
+        const isSeries = document.getElementById("isSeries").value === "true";
+        const releaseYear = document.getElementById("releaseYear").value;
+
+        // Collect episodes if it's a series
+        let episodes = [];
+        if (isSeries) {
+          const episodeItems = document.querySelectorAll(".episode-item");
+          episodeItems.forEach((item, index) => {
+            const episodeTitle = item.querySelector(".episode-title").value;
+            const episodeUrl = item.querySelector(".episode-url").value;
+            const episodeDescription = item.querySelector(
+              ".episode-description"
+            ).value;
+
+            if (episodeTitle && episodeUrl) {
+              episodes.push({
+                title: episodeTitle,
+                url: episodeUrl,
+                description: episodeDescription,
+                episodeNumber: index + 1,
+              });
+            }
+          });
+        }
+
+        const movieData = {
+          title,
+          videoUrl,
+          description,
+          posterUrl:
+            posterUrl ||
+            "https://via.placeholder.com/300x400?text=Movie+Poster",
+          genre,
+          isSeries,
+          releaseYear: releaseYear || new Date().getFullYear(),
+          episodes: episodes,
+          creatorId: currentUser.uid,
+          creatorName: document.getElementById("userName").textContent,
+          uploadDate: firebase.database.ServerValue.TIMESTAMP,
+          views: 0,
+          downloads: 0,
+          viewsPerUser: {},
+        };
+
+        // Upload to Firebase
+        const movieRef = database.ref("movies").push();
+        movieRef
+          .set(movieData)
+          .then(() => {
+            showMessage("Movie uploaded successfully!", "success");
+            document.getElementById("uploadForm").reset();
+            document.getElementById("episodeSection").style.display = "none";
+            document.getElementById("episodesList").innerHTML = "";
+            episodeCount = 0;
+            loadMyMovies();
+            updateCreatorStats();
+          })
+          .catch((error) => {
+            showMessage("Error uploading movie: " + error.message, "error");
+          });
+      }
+
+      // Load movies for viewer tab
+      function loadMovies() {
+        const moviesGrid = document.getElementById("moviesGrid");
+        moviesGrid.innerHTML =
+          '<div class="loading"><div class="loading-spinner"></div></div>';
+
+        database
+          .ref("movies")
+          .orderByChild("uploadDate")
+          .once("value")
+          .then((snapshot) => {
+            moviesGrid.innerHTML = "";
+            const movies = [];
+
+            snapshot.forEach((childSnapshot) => {
+              const movie = childSnapshot.val();
+              movie.id = childSnapshot.key;
+              movies.push(movie);
+            });
+
+            movies.reverse(); // Show newest first
+
+            if (movies.length === 0) {
+              moviesGrid.innerHTML =
+                '<div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.7); font-size: 0.9rem;">No movies available yet.</div>';
+              return;
+            }
+
+            movies.forEach((movie) => {
+              const movieCard = createMovieCard(movie);
+              moviesGrid.appendChild(movieCard);
+            });
+
+            updateViewerStats();
+          });
+      }
+
+      // Load creator's movies
+      function loadMyMovies() {
+        const myMoviesGrid = document.getElementById("myMoviesGrid");
+        myMoviesGrid.innerHTML =
+          '<div class="loading"><div class="loading-spinner"></div></div>';
+
+        database
+          .ref("movies")
+          .orderByChild("creatorId")
+          .equalTo(currentUser.uid)
+          .once("value")
+          .then((snapshot) => {
+            myMoviesGrid.innerHTML = "";
+            const movies = [];
+
+            snapshot.forEach((childSnapshot) => {
+              const movie = childSnapshot.val();
+              movie.id = childSnapshot.key;
+              movies.push(movie);
+            });
+
+            if (movies.length === 0) {
+              myMoviesGrid.innerHTML =
+                '<div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.7); font-size: 0.9rem;">You haven\'t uploaded any movies yet.</div>';
+              return;
+            }
+
+            movies.forEach((movie) => {
+              const movieCard = createMovieCard(movie, true);
+              myMoviesGrid.appendChild(movieCard);
+            });
+          });
+      }
+
+      // Create movie card
+      function createMovieCard(movie, isOwner = false) {
+        const card = document.createElement("div");
+        card.className = "movie-card";
+
+        const userViews =
+          movie.viewsPerUser && movie.viewsPerUser[currentUser.uid]
+            ? movie.viewsPerUser[currentUser.uid]
+            : 0;
+
+        card.innerHTML = `
+                <div class="movie-poster">
+                    ${
+                      movie.posterUrl &&
+                      movie.posterUrl !==
+                        "https://via.placeholder.com/300x400?text=Movie+Poster"
+                        ? `<img src="${movie.posterUrl}" alt="${movie.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                           <div style="display: none; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 2.5rem;">
+                               <i class="fas fa-film"></i>
+                           </div>`
+                        : `<i class="fas fa-film"></i>`
+                    }
+                </div>
+                <div class="movie-info">
+                    <h3 class="movie-title">${movie.title}</h3>
+                    <p class="movie-description">${movie.description}</p>
+                    <div class="movie-meta">
+                        <span class="movie-creator">By: ${
+                          movie.creatorName
+                        }</span>
+                        <span class="movie-views">
+                            <i class="fas fa-eye"></i> ${userViews} views
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button class="action-btn watch-btn" onclick="watchMovie('${
+                          movie.id
+                        }', '${movie.videoUrl}')">
+                            <i class="fas fa-play"></i> Watch
+                        </button>
+                        <button class="action-btn download-btn" onclick="downloadMovie('${
+                          movie.id
+                        }', '${movie.videoUrl}')">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                    ${
+                      movie.isSeries &&
+                      movie.episodes &&
+                      movie.episodes.length > 0
+                        ? `
+                        <div style="margin-top: 12px;">
+                            <h4 style="margin-bottom: 8px; color: var(--gold); font-size: 0.9rem;">Episodes:</h4>
+                            ${movie.episodes
+                              .map(
+                                (episode) => `
+                                <div style="background: rgba(255,255,255,0.05); padding: 8px; margin-bottom: 6px; border-radius: 6px;">
+                                    <strong style="font-size: 0.85rem;">${episode.title}</strong>
+                                    <div style="margin-top: 4px;">
+                                        <button class="action-btn watch-btn" style="padding: 4px 8px; font-size: 0.75rem; margin-right: 4px;" onclick="watchMovie('${movie.id}', '${episode.url}')">
+                                            <i class="fas fa-play"></i> Watch
+                                        </button>
+                                        <button class="action-btn download-btn" style="padding: 4px 8px; font-size: 0.75rem;" onclick="downloadMovie('${movie.id}', '${episode.url}')">
+                                            <i class="fas fa-download"></i> Download
+                                        </button>
+                                    </div>
+                                </div>
+                            `
+                              )
+                              .join("")}
+                        </div>
+                    `
+                        : ""
+                    }
+                    ${
+                      isOwner
+                        ? `
+                        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                                <span>Total Views: ${movie.views || 0}</span>
+                                <span style="color: var(--green);">Earnings: $${(
+                                  ((movie.views || 0) * 0.0066) /
+                                  100
+                                ).toFixed(4)}</span>
+                            </div>
+                        </div>
+                    `
+                        : ""
+                    }
+                </div>
+            `;
+
+        return card;
+      }
+
+      // Watch movie with ad integration
+      function watchMovie(movieId, videoUrl) {
+        // Increment view count
+        const movieRef = database.ref("movies/" + movieId);
+
+        movieRef.transaction((movie) => {
+          if (movie) {
+            movie.views = (movie.views || 0) + 1;
+
+            // Track views per user
+            if (!movie.viewsPerUser) movie.viewsPerUser = {};
+            movie.viewsPerUser[currentUser.uid] =
+              (movie.viewsPerUser[currentUser.uid] || 0) + 1;
+
+            // Update creator earnings every 100 views
+            if (movie.views % 100 === 0) {
+              updateCreatorEarnings(movie.creatorId, 0.0066);
+            }
+          }
+          return movie;
+        });
+
+        // Open video player
+        const videoModal = document.getElementById("videoModal");
+        const videoPlayer = document.getElementById("videoPlayer");
+
+        videoPlayer.src = videoUrl;
+        videoModal.classList.add("active");
+        document.body.style.overflow = "hidden";
+
+        // Reset watch time and ad timers
+        videoWatchTime = 0;
+        lastAdTime = 0;
+
+        // Set up ad intervals
+        setupAdIntervals();
+
+        // Track video time
+        videoPlayer.addEventListener("timeupdate", function () {
+          videoWatchTime = this.currentTime * 1000; // Convert to milliseconds
+
+          // Check if it's time to show an ad (every 20 minutes)
+          if (videoWatchTime - lastAdTime >= AD_INTERVAL) {
+            displayPopupAd();
+            lastAdTime = videoWatchTime;
+          }
+        });
+
+        // Show initial ad overlay after 5 seconds
+        setTimeout(() => {
+          if (videoModal.classList.contains("active")) {
+            displayAdOverlay();
+          }
+        }, 5000);
+      }
+
+      // Setup ad intervals
+      function setupAdIntervals() {
+        // Clear existing intervals
+        if (adInterval) {
+          clearInterval(adInterval);
+        }
+
+        // Show ad overlay every 10 minutes (less intrusive)
+        adInterval = setInterval(() => {
+          const videoModal = document.getElementById("videoModal");
+          if (videoModal.classList.contains("active")) {
+            displayAdOverlay();
+          }
+        }, 10 * 60 * 1000); // 10 minutes
+      }
+
+      // Download movie
+      function downloadMovie(movieId, videoUrl) {
+        // Increment download count
+        database
+          .ref("movies/" + movieId + "/downloads")
+          .transaction((downloads) => {
+            return (downloads || 0) + 1;
+          });
+
+        // Create download link
+        const link = document.createElement("a");
+        link.href = videoUrl;
+        link.download = "movie.mp4";
+        link.target = "_blank";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        showMessage("Download started!", "success");
+      }
+
+      // Close video player
+      function closeVideo() {
+        const videoModal = document.getElementById("videoModal");
+        const videoPlayer = document.getElementById("videoPlayer");
+
+        videoPlayer.pause();
+        videoPlayer.src = "";
+        videoModal.classList.remove("active");
+        document.body.style.overflow = "auto";
+
+        // Clear ad intervals
+        if (adInterval) {
+          clearInterval(adInterval);
+        }
+
+        // Close any open ads
+        closePopupAd();
+        const adOverlay = document.getElementById("adOverlay");
+        adOverlay.classList.remove("show");
+      }
+
+      // Update creator earnings
+      function updateCreatorEarnings(creatorId, amount) {
+        database
+          .ref("users/" + creatorId + "/balance")
+          .transaction((balance) => {
+            return (balance || 0) + amount;
+          });
+      }
+
+      // Update viewer stats
+      function updateViewerStats() {
+        database
+          .ref("movies")
+          .once("value")
+          .then((snapshot) => {
+            let totalMovies = 0;
+            let totalViews = 0;
+            let totalDownloads = 0;
+
+            snapshot.forEach((childSnapshot) => {
+              const movie = childSnapshot.val();
+              totalMovies++;
+              totalViews += movie.views || 0;
+              totalDownloads += movie.downloads || 0;
+            });
+
+            document.getElementById("totalMovies").textContent = totalMovies;
+            document.getElementById("totalViews").textContent = totalViews;
+            document.getElementById("totalDownloads").textContent =
+              totalDownloads;
+          });
+      }
+
+      // Update creator stats
+      function updateCreatorStats() {
+        database
+          .ref("movies")
+          .orderByChild("creatorId")
+          .equalTo(currentUser.uid)
+          .once("value")
+          .then((snapshot) => {
+            let myMovies = 0;
+            let myViews = 0;
+            let totalEarnings = 0;
+
+            snapshot.forEach((childSnapshot) => {
+              const movie = childSnapshot.val();
+              myMovies++;
+              myViews += movie.views || 0;
+              totalEarnings += ((movie.views || 0) * 0.0066) / 100;
+            });
+
+            document.getElementById("myMovies").textContent = myMovies;
+            document.getElementById("myViews").textContent = myViews;
+            document.getElementById("totalEarnings").textContent =
+              totalEarnings.toFixed(4);
+          });
+      }
+
+      // Show message
+      function showMessage(text, type) {
+        const message = document.createElement("div");
+        message.className = `message ${type}`;
+        message.textContent = text;
+
+        document
+          .querySelector(".main-container")
+          .insertBefore(message, document.querySelector(".tab-navigation"));
+
+        setTimeout(() => {
+          message.remove();
+        }, 5000);
+      }
+
+      // User menu toggle (placeholder)
+      function toggleUserMenu() {
+        // Add user menu functionality here
+        console.log("User menu clicked");
+      }
+
+      // Close video on escape key
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeVideo();
+          closePopupAd();
+        }
+      });
+
+      // Close video on background click
+      document
+        .getElementById("videoModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeVideo();
+          }
+        });
+
+      // Close popup ad on background click
+      document
+        .getElementById("popupAdModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closePopupAd();
+          }
+        });
+
+      // Refresh ads periodically
+      setInterval(() => {
+        loadActiveAds();
+      }, 5 * 60 * 1000); // Refresh every 5 minutes
+
+      // Cleanup on page unload
+      window.addEventListener("beforeunload", function () {
+        if (adInterval) {
+          clearInterval(adInterval);
+        }
+        if (adDisplayTimer) {
+          clearTimeout(adDisplayTimer);
+        }
+        if (popupAdTimer) {
+          clearTimeout(popupAdTimer);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Watch Movie - MovieHatch</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+    <style>
+      :root {
+        --primary: #e50914;
+        --primary-dark: #b2070f;
+        --secondary: #1a1a1a;
+        --dark: #0f0f0f;
+        --light: #ffffff;
+        --gray: #333333;
+        --gray-light: #666666;
+        --gold: #ffd700;
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: var(--dark);
+        color: var(--light);
+        overflow: hidden;
+      }
+
+      .player-container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      .player-header {
+        background: rgba(0, 0, 0, 0.9);
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--gray);
+        z-index: 1000;
+      }
+
+      .player-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--light);
+      }
+
+      .player-controls {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .control-btn {
+        background: var(--gray);
+        border: none;
+        color: var(--light);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .control-btn:hover {
+        background: var(--primary);
+      }
+
+      .close-btn {
+        background: var(--primary);
+      }
+
+      .close-btn:hover {
+        background: var(--primary-dark);
+      }
+
+      .player-content {
+        flex: 1;
+        display: flex;
+        position: relative;
+      }
+
+      .video-section {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+        position: relative;
+      }
+
+      .video-player {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .episodes-sidebar {
+        width: 350px;
+        background: var(--secondary);
+        border-left: 1px solid var(--gray);
+        overflow-y: auto;
+        display: none;
+      }
+
+      .episodes-sidebar.show {
+        display: block;
+      }
+
+      .episodes-header {
+        padding: 20px;
+        border-bottom: 1px solid var(--gray);
+        background: var(--gray);
+      }
+
+      .episodes-header h3 {
+        color: var(--light);
+        font-size: 1.2rem;
+      }
+
+      .episodes-list {
+        padding: 0;
+      }
+
+      .episode-item {
+        padding: 15px 20px;
+        cursor: pointer;
+        transition: var(--transition);
+        border-bottom: 1px solid var(--gray);
+      }
+
+      .episode-item:hover,
+      .episode-item.active {
+        background: var(--primary);
+      }
+
+      .episode-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: var(--light);
+      }
+
+      .episode-description {
+        font-size: 0.85rem;
+        color: var(--gray-light);
+        line-height: 1.4;
+      }
+
+      /* Ad Overlay */
+      .ad-overlay {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.95);
+        border-radius: 12px;
+        padding: 20px;
+        max-width: 320px;
+        border: 2px solid var(--primary);
+        backdrop-filter: blur(10px);
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.5s ease;
+        z-index: 1001;
+      }
+
+      .ad-overlay.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .ad-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .ad-label {
+        font-size: 0.8rem;
+        color: var(--gold);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .ad-timer {
+        font-size: 0.8rem;
+        color: var(--gray-light);
+        background: rgba(255, 255, 255, 0.1);
+        padding: 4px 8px;
+        border-radius: 12px;
+      }
+
+      .ad-content {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .ad-media {
+        width: 100%;
+        height: 140px;
+        border-radius: 8px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .ad-media img,
+      .ad-media video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .ad-text {
+        font-size: 1rem;
+        color: var(--light);
+        font-weight: 600;
+        text-align: center;
+        line-height: 1.4;
+      }
+
+      .ad-action {
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-decoration: none;
+        text-align: center;
+        display: block;
+      }
+
+      .ad-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+      }
+
+      /* Popup Ad Modal */
+      .popup-ad-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 10000;
+        backdrop-filter: blur(5px);
+      }
+
+      .popup-ad-modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .popup-ad-container {
+        background: var(--secondary);
+        border-radius: 15px;
+        padding: 30px;
+        max-width: 450px;
+        width: 90%;
+        border: 2px solid var(--primary);
+        position: relative;
+        animation: popupSlideIn 0.5s ease;
+      }
+
+      @keyframes popupSlideIn {
+        from {
+          opacity: 0;
+          transform: scale(0.8) translateY(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      .popup-ad-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .popup-ad-label {
+        font-size: 0.9rem;
+        color: var(--gold);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .popup-ad-timer {
+        font-size: 0.9rem;
+        color: var(--gray-light);
+        background: rgba(255, 255, 255, 0.1);
+        padding: 6px 12px;
+        border-radius: 15px;
+      }
+
+      .popup-ad-media {
+        width: 100%;
+        height: 220px;
+        border-radius: 12px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .popup-ad-media img,
+      .popup-ad-media video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .popup-ad-text {
+        font-size: 1.1rem;
+        color: var(--light);
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+
+      .popup-ad-action {
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+        color: white;
+        border: none;
+        padding: 15px 25px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 700;
+        font-size: 1rem;
+        text-decoration: none;
+        text-align: center;
+        display: block;
+        width: 100%;
+      }
+
+      .popup-ad-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4);
+      }
+
+      /* Mobile Responsive */
+      @media (max-width: 768px) {
+        .episodes-sidebar {
+          width: 100%;
+          position: absolute;
+          top: 0;
+          right: 0;
+          height: 100%;
+          z-index: 1000;
+        }
+
+        .player-header {
+          padding: 12px 20px;
+        }
+
+        .player-title {
+          font-size: 1.2rem;
+        }
+
+        .ad-overlay {
+          top: 10px;
+          right: 10px;
+          max-width: 280px;
+          padding: 15px;
+        }
+
+        .ad-media {
+          height: 120px;
+        }
+
+        .popup-ad-container {
+          padding: 25px 20px;
+          max-width: 350px;
+        }
+
+        .popup-ad-media {
+          height: 180px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .player-controls {
+          gap: 10px;
+        }
+
+        .control-btn {
+          width: 35px;
+          height: 35px;
+          font-size: 0.9rem;
+        }
+
+        .ad-overlay {
+          max-width: 250px;
+          padding: 12px;
+        }
+
+        .ad-media {
+          height: 100px;
+        }
+
+        .ad-text {
+          font-size: 0.9rem;
+        }
+
+        .popup-ad-container {
+          padding: 20px 15px;
+          max-width: 300px;
+        }
+
+        .popup-ad-media {
+          height: 150px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="player-container">
+      <div class="player-header">
+        <h1 class="player-title" id="playerTitle">Movie Title</h1>
+        <div class="player-controls">
+          <button
+            class="control-btn"
+            id="episodesToggle"
+            title="Episodes"
+            style="display: none"
+          >
+            <i class="fas fa-list"></i>
+          </button>
+          <button
+            class="control-btn"
+            onclick="downloadMovie()"
+            title="Download"
+          >
+            <i class="fas fa-download"></i>
+          </button>
+          <button
+            class="control-btn close-btn"
+            onclick="goBack()"
+            title="Close"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="player-content">
+        <div class="video-section">
+          <video class="video-player" id="videoPlayer" controls autoplay>
+            Your browser does not support the video tag.
+          </video>
+
+          <!-- Ad Overlay -->
+          <div class="ad-overlay" id="adOverlay">
+            <div class="ad-header">
+              <span class="ad-label">Advertisement</span>
+              <span class="ad-timer" id="adTimer">5s</span>
+            </div>
+            <div class="ad-content" id="adContent">
+              <!-- Ad content will be loaded here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Episodes Sidebar -->
+        <div class="episodes-sidebar" id="episodesSidebar">
+          <div class="episodes-header">
+            <h3>Episodes</h3>
+          </div>
+          <div class="episodes-list" id="episodesList">
+            <!-- Episodes will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popup Ad Modal -->
+    <div class="popup-ad-modal" id="popupAdModal">
+      <div class="popup-ad-container">
+        <div class="popup-ad-header">
+          <span class="popup-ad-label">Advertisement</span>
+          <span class="popup-ad-timer" id="popupAdTimer">5s</span>
+        </div>
+        <div class="popup-ad-content" id="popupAdContent">
+          <!-- Popup ad content will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDJP2XIR51qGTLINiKvEoscYTMt11CaZ5s",
+        authDomain: "paytrust-71e30.firebaseapp.com",
+        databaseURL: "https://paytrust-71e30-default-rtdb.firebaseio.com/",
+        projectId: "paytrust-71e30",
+        storageBucket: "paytrust-71e30.appspot.com",
+        messagingSenderId: "492609516838",
+        appId: "1:492609516838:android:5a924ad3b7e8e508fa3de7",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const database = firebase.database();
+
+      // Global variables
+      let currentUser = null;
+      let currentMovie = null;
+      let currentAds = [];
+      let adInterval = null;
+      let videoWatchTime = 0;
+      let lastAdTime = 0;
+
+      // Ad configuration
+      const AD_INTERVAL = 20 * 60 * 1000; // 20 minutes
+      const AD_DISPLAY_DURATION = 5000; // 5 seconds
+
+      // Get movie ID from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const movieId = urlParams.get("id");
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", function () {
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            currentUser = user;
+            if (movieId) {
+              loadMovie(movieId);
+              loadActiveAds();
+              setupEventListeners();
+            } else {
+              goBack();
+            }
+          } else {
+            window.location.href = "login.html";
+          }
+        });
+      });
+
+      // Setup event listeners
+      function setupEventListeners() {
+        // Episodes toggle
+        document
+          .getElementById("episodesToggle")
+          .addEventListener("click", function () {
+            const sidebar = document.getElementById("episodesSidebar");
+            sidebar.classList.toggle("show");
+          });
+
+        // Video time tracking
+        const videoPlayer = document.getElementById("videoPlayer");
+        videoPlayer.addEventListener("timeupdate", function () {
+          videoWatchTime = this.currentTime * 1000;
+
+          // Show ad every 20 minutes
+          if (videoWatchTime - lastAdTime >= AD_INTERVAL) {
+            displayPopupAd();
+            lastAdTime = videoWatchTime;
+          }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener("keydown", function (e) {
+          switch (e.key) {
+            case "Escape":
+              goBack();
+              break;
+            case " ":
+              e.preventDefault();
+              togglePlayPause();
+              break;
+            case "f":
+            case "F":
+              toggleFullscreen();
+              break;
+          }
+        });
+      }
+
+      // Load movie data
+      function loadMovie(movieId) {
+        database
+          .ref("movies/" + movieId)
+          .once("value")
+          .then((snapshot) => {
+            const movie = snapshot.val();
+            if (movie) {
+              currentMovie = { id: movieId, ...movie };
+              setupMovie(currentMovie);
+              incrementViewCount();
+            } else {
+              alert("Movie not found");
+              goBack();
+            }
+          })
+          .catch((error) => {
+            console.error("Error loading movie:", error);
+            alert("Error loading movie");
+            goBack();
+          });
+      }
+
+      // Setup movie player
+      function setupMovie(movie) {
+        document.getElementById("playerTitle").textContent = movie.title;
+        document.getElementById("videoPlayer").src = movie.videoUrl;
+
+        // Setup episodes if available
+        if (movie.episodes && movie.episodes.length > 0) {
+          setupEpisodes(movie.episodes);
+          document.getElementById("episodesToggle").style.display = "block";
+        }
+
+        // Setup ads
+        setupAdIntervals();
+
+        // Show initial ad after 5 seconds
+        setTimeout(() => {
+          displayAdOverlay();
+        }, 5000);
+      }
+
+      // Setup episodes
+      function setupEpisodes(episodes) {
+        const episodesList = document.getElementById("episodesList");
+        episodesList.innerHTML = "";
+
+        episodes.forEach((episode, index) => {
+          const episodeItem = document.createElement("div");
+          episodeItem.className = "episode-item";
+          if (index === 0) episodeItem.classList.add("active");
+
+          episodeItem.onclick = () => playEpisode(episode, episodeItem);
+
+          episodeItem.innerHTML = `
+                    <div class="episode-title">Episode ${
+                      episode.episodeNumber
+                    }: ${episode.title}</div>
+                    <div class="episode-description">${
+                      episode.description || ""
+                    }</div>
+                `;
+
+          episodesList.appendChild(episodeItem);
+        });
+      }
+
+      // Play episode
+      function playEpisode(episode, episodeElement) {
+        const videoPlayer = document.getElementById("videoPlayer");
+        const playerTitle = document.getElementById("playerTitle");
+
+        videoPlayer.src = episode.url;
+        playerTitle.textContent = `${currentMovie.title} - ${episode.title}`;
+
+        // Update active episode
+        document
+          .querySelectorAll(".episode-item")
+          .forEach((item) => item.classList.remove("active"));
+        episodeElement.classList.add("active");
+
+        // Reset ad timing
+        videoWatchTime = 0;
+        lastAdTime = 0;
+      }
+
+      // Increment view count
+      function incrementViewCount() {
+        database.ref("movies/" + currentMovie.id).transaction((movie) => {
+          if (movie) {
+            movie.views = (movie.views || 0) + 1;
+
+            // Track views per user
+            if (!movie.viewsPerUser) movie.viewsPerUser = {};
+            movie.viewsPerUser[currentUser.uid] =
+              (movie.viewsPerUser[currentUser.uid] || 0) + 1;
+
+            // Update creator earnings every 100 views
+            if (movie.views % 100 === 0) {
+              updateCreatorEarnings(movie.creatorId, 0.0066);
+            }
+          }
+          return movie;
+        });
+      }
+
+      // Update creator earnings
+      function updateCreatorEarnings(creatorId, amount) {
+        database
+          .ref("users/" + creatorId + "/balance")
+          .transaction((balance) => {
+            return (balance || 0) + amount;
+          });
+      }
+
+      // Load active ads
+      function loadActiveAds() {
+        database
+          .ref("activeAds")
+          .once("value")
+          .then((snapshot) => {
+            currentAds = [];
+            snapshot.forEach((childSnapshot) => {
+              const ad = childSnapshot.val();
+              const now = Date.now();
+
+              if (ad.endTime > now) {
+                currentAds.push({
+                  id: childSnapshot.key,
+                  ...ad,
+                });
+
+                // Increment impressions
+                database
+                  .ref(`activeAds/${childSnapshot.key}/impressions`)
+                  .transaction((impressions) => {
+                    return (impressions || 0) + 1;
+                  });
+              }
+            });
+          });
+      }
+
+      // Get random ad
+      function getRandomAd() {
+        if (currentAds.length === 0) return null;
+        return currentAds[Math.floor(Math.random() * currentAds.length)];
+      }
+
+      // Display ad overlay
+      function displayAdOverlay() {
+        const ad = getRandomAd();
+        if (!ad) return;
+
+        const adOverlay = document.getElementById("adOverlay");
+        const adContent = document.getElementById("adContent");
+        const adTimer = document.getElementById("adTimer");
+
+        adContent.innerHTML = `
+                <div class="ad-media">
+                    ${
+                      ad.type === "image"
+                        ? `<img src="${ad.mediaUrl}" alt="Ad" onerror="this.style.display='none';">`
+                        : `<video src="${ad.mediaUrl}" muted autoplay loop onerror="this.style.display='none';"></video>`
+                    }
+                </div>
+                <div class="ad-text">${ad.text}</div>
+                <a href="${
+                  ad.actionLink
+                }" target="_blank" class="ad-action" onclick="trackAdClick('${
+          ad.id
+        }')">${ad.actionText}</a>
+            `;
+
+        adOverlay.classList.add("show");
+
+        // Countdown timer
+        let timeLeft = 5;
+        adTimer.textContent = timeLeft + "s";
+
+        const countdown = setInterval(() => {
+          timeLeft--;
+          adTimer.textContent = timeLeft + "s";
+
+          if (timeLeft <= 0) {
+            clearInterval(countdown);
+            adOverlay.classList.remove("show");
+          }
+        }, 1000);
+      }
+
+      // Display popup ad
+      function displayPopupAd() {
+        const ad = getRandomAd();
+        if (!ad) return;
+
+        const popupAdModal = document.getElementById("popupAdModal");
+        const popupAdContent = document.getElementById("popupAdContent");
+        const popupAdTimer = document.getElementById("popupAdTimer");
+
+        popupAdContent.innerHTML = `
+                <div class="popup-ad-media">
+                    ${
+                      ad.type === "image"
+                        ? `<img src="${ad.mediaUrl}" alt="Ad" onerror="this.style.display='none';">`
+                        : `<video src="${ad.mediaUrl}" muted autoplay loop onerror="this.style.display='none';"></video>`
+                    }
+                </div>
+                <div class="popup-ad-text">${ad.text}</div>
+                <a href="${
+                  ad.actionLink
+                }" target="_blank" class="popup-ad-action" onclick="trackAdClick('${
+          ad.id
+        }'); closePopupAd();">${ad.actionText}</a>
+            `;
+
+        popupAdModal.classList.add("active");
+
+        // Countdown timer
+        let timeLeft = 5;
+        popupAdTimer.textContent = timeLeft + "s";
+
+        const countdown = setInterval(() => {
+          timeLeft--;
+          popupAdTimer.textContent = timeLeft + "s";
+
+          if (timeLeft <= 0) {
+            clearInterval(countdown);
+            closePopupAd();
+          }
+        }, 1000);
+
+        popupAdTimer.countdownInterval = countdown;
+      }
+
+      // Close popup ad
+      function closePopupAd() {
+        const popupAdModal = document.getElementById("popupAdModal");
+        const popupAdTimer = document.getElementById("popupAdTimer");
+
+        if (popupAdTimer.countdownInterval) {
+          clearInterval(popupAdTimer.countdownInterval);
+        }
+
+        popupAdModal.classList.remove("active");
+      }
+
+      // Setup ad intervals
+      function setupAdIntervals() {
+        if (adInterval) clearInterval(adInterval);
+
+        adInterval = setInterval(() => {
+          displayAdOverlay();
+        }, 10 * 60 * 1000); // Every 10 minutes
+      }
+
+      // Track ad clicks
+      function trackAdClick(adId) {
+        database.ref(`activeAds/${adId}/clicks`).transaction((clicks) => {
+          return (clicks || 0) + 1;
+        });
+      }
+
+      // Download movie
+      function downloadMovie() {
+        if (!currentMovie) return;
+
+        // Increment download count
+        database
+          .ref("movies/" + currentMovie.id + "/downloads")
+          .transaction((downloads) => {
+            return (downloads || 0) + 1;
+          });
+
+        // Create download link
+        const link = document.createElement("a");
+        link.href = currentMovie.videoUrl;
+        link.download = currentMovie.title + ".mp4";
+        link.target = "_blank";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      // Toggle play/pause
+      function togglePlayPause() {
+        const videoPlayer = document.getElementById("videoPlayer");
+        if (videoPlayer.paused) {
+          videoPlayer.play();
+        } else {
+          videoPlayer.pause();
+        }
+      }
+
+      // Toggle fullscreen
+      function toggleFullscreen() {
+        const videoPlayer = document.getElementById("videoPlayer");
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else {
+          videoPlayer.requestFullscreen();
+        }
+      }
+
+      // Go back to main page
+      function goBack() {
+        // Clean up
+        if (adInterval) {
+          clearInterval(adInterval);
+        }
+        closePopupAd();
+
+        window.location.href = "main.html";
+      }
+
+      // Close popup ad on background click
+      document
+        .getElementById("popupAdModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closePopupAd();
+          }
+        });
+
+      // Cleanup on page unload
+      window.addEventListener("beforeunload", function () {
+        if (adInterval) {
+          clearInterval(adInterval);
+        }
+      });
+    </script>
+  </body>
+</html>
